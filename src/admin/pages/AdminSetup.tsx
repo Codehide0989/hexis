@@ -98,8 +98,10 @@ export default function AdminSetup() {
       const sessionToken = `${adminId}-${Date.now()}`;
       localStorage.setItem('admin_token', sessionToken);
       localStorage.setItem('admin_id', adminId);
+      localStorage.setItem('admin_username', formData.username);
       sessionStorage.setItem('admin_token', sessionToken);
       sessionStorage.setItem('admin_id', adminId);
+      sessionStorage.setItem('admin_username', formData.username);
 
       toast.success('Admin initialization complete');
     } catch (err: any) {
