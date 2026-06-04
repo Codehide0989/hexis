@@ -7,9 +7,12 @@ import {
 } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { format } from 'date-fns';
+import { usePlan } from '../../context/PlanContext';
+import { UpgradeGate } from '../../components/ui/UpgradeGate';
 
 export default function Collab() {
   const { user } = useAuth();
+  const { canUse } = usePlan();
   
   const [workspace, setWorkspace] = useState<any>(null);
   const [members, setMembers] = useState<any[]>([]);
@@ -412,71 +415,6 @@ export default function Collab() {
     );
   }
 
-  if (!workspace) {
-    return (
-      <div className="h-full flex items-center justify-center bg-[#0a1a0f] p-4">
-        <div className="max-w-md w-full bg-[#0d2818] border border-[#1b4332] p-6">
-          {!showCreate ? (
-            <>
-              <h2 className="text-[#52b788] font-mono font-bold tracking-widest mb-6 uppercase">JOIN EXISTING WORKSPACE</h2>
-              <form onSubmit={joinWorkspace} className="flex flex-col gap-4">
-                <input
-                  type="text"
-                  placeholder="6-CHAR CODE"
-                  value={inviteCode}
-                  onChange={e => setInviteCode(e.target.value.toUpperCase())}
-                  maxLength={6}
-                  className="w-full bg-[#0a1a0f] border border-[#1b4332] text-[#d8f3dc] font-mono px-4 py-3 outline-none focus:border-[#52b788] text-center tracking-[0.5em] uppercase"
-                />
-                <button type="submit" className="w-full bg-[#52b788] text-[#0a1a0f] font-mono font-bold uppercase tracking-widest px-4 py-3 hover:bg-[#74c69d] transition-colors">
-                  JOIN
-                </button>
-              </form>
-              
-              <div className="flex items-center gap-4 my-6">
-                <div className="flex-1 border-t border-[#1b4332]"></div>
-                <div className="text-[#2d6a4f] font-mono text-xs">OR</div>
-                <div className="flex-1 border-t border-[#1b4332]"></div>
-              </div>
-              
-              <button 
-                onClick={() => setShowCreate(true)}
-                className="w-full border border-[#52b788] text-[#52b788] font-mono text-sm uppercase tracking-widest px-4 py-3 hover:bg-[#52b788] hover:text-[#0a1a0f] transition-colors"
-              >
-                INITIALIZE NEW WORKSPACE
-              </button>
-            </>
-          ) : (
-            <>
-              <h2 className="text-[#52b788] font-mono font-bold tracking-widest mb-6 uppercase">INITIALIZE NEW WORKSPACE</h2>
-              <form onSubmit={createWorkspace} className="flex flex-col gap-4">
-                <input
-                  type="text"
-                  placeholder="WORKSPACE NAME"
-                  value={workspaceName}
-                  onChange={e => setWorkspaceName(e.target.value)}
-                  className="w-full bg-[#0a1a0f] border border-[#1b4332] text-[#d8f3dc] font-mono px-4 py-3 outline-none focus:border-[#52b788] tracking-wider"
-                />
-                <div className="flex gap-2">
-                  <button 
-                    type="button"
-                    onClick={() => setShowCreate(false)}
-                    className="flex-1 border border-[#1b4332] text-[#95d5b2] font-mono uppercase tracking-widest px-4 py-3 hover:bg-[#1b4332] transition-colors"
-                  >
-                    CANCEL
-                  </button>
-                  <button type="submit" className="flex-1 bg-[#52b788] text-[#0a1a0f] font-mono font-bold uppercase tracking-widest px-4 py-3 hover:bg-[#74c69d] transition-colors">
-                    CREATE
-                  </button>
-                </div>
-              </form>
-            </>
-          )}
-        </div>
-      </div>
-    );
-  }
-
   const getUsername = (userId: string) => {
     const member = members.find(m => m.user_id === userId);
     return member?.profiles?.username || 'unknown';
@@ -488,7 +426,70 @@ export default function Collab() {
   const roleColor = myRole === 'owner' ? 'text-amber-500 border-amber-500/30' : myRole === 'editor' ? 'text-[#52b788] border-[#52b788]/30' : 'text-gray-400 border-gray-400/30';
   
   return (
-    <div className="h-full flex flex-col bg-[#0a1a0f]">
+    <UpgradeGate feature="Collaboration" requiredPlan="phantom" enabled={canUse('collab')}>
+      {!workspace ? (
+        <div className="h-full flex items-center justify-center bg-[#0a1a0f] p-4">
+          <div className="max-w-md w-full bg-[#0d2818] border border-[#1b4332] p-6">
+            {!showCreate ? (
+              <>
+                <h2 className="text-[#52b788] font-mono font-bold tracking-widest mb-6 uppercase">JOIN EXISTING WORKSPACE</h2>
+                <form onSubmit={joinWorkspace} className="flex flex-col gap-4">
+                  <input
+                    type="text"
+                    placeholder="6-CHAR CODE"
+                    value={inviteCode}
+                    onChange={e => setInviteCode(e.target.value.toUpperCase())}
+                    maxLength={6}
+                    className="w-full bg-[#0a1a0f] border border-[#1b4332] text-[#d8f3dc] font-mono px-4 py-3 outline-none focus:border-[#52b788] text-center tracking-[0.5em] uppercase"
+                  />
+                  <button type="submit" className="w-full bg-[#52b788] text-[#0a1a0f] font-mono font-bold uppercase tracking-widest px-4 py-3 hover:bg-[#74c69d] transition-colors">
+                    JOIN
+                  </button>
+                </form>
+                
+                <div className="flex items-center gap-4 my-6">
+                  <div className="flex-1 border-t border-[#1b4332]"></div>
+                  <div className="text-[#2d6a4f] font-mono text-xs">OR</div>
+                  <div className="flex-1 border-t border-[#1b4332]"></div>
+                </div>
+                
+                <button 
+                  onClick={() => setShowCreate(true)}
+                  className="w-full border border-[#52b788] text-[#52b788] font-mono text-sm uppercase tracking-widest px-4 py-3 hover:bg-[#52b788] hover:text-[#0a1a0f] transition-colors"
+                >
+                  INITIALIZE NEW WORKSPACE
+                </button>
+              </>
+            ) : (
+              <>
+                <h2 className="text-[#52b788] font-mono font-bold tracking-widest mb-6 uppercase">INITIALIZE NEW WORKSPACE</h2>
+                <form onSubmit={createWorkspace} className="flex flex-col gap-4">
+                  <input
+                    type="text"
+                    placeholder="WORKSPACE NAME"
+                    value={workspaceName}
+                    onChange={e => setWorkspaceName(e.target.value)}
+                    className="w-full bg-[#0a1a0f] border border-[#1b4332] text-[#d8f3dc] font-mono px-4 py-3 outline-none focus:border-[#52b788] tracking-wider"
+                  />
+                  <div className="flex gap-2">
+                    <button 
+                      type="button"
+                      onClick={() => setShowCreate(false)}
+                      className="flex-1 border border-[#1b4332] text-[#95d5b2] font-mono uppercase tracking-widest px-4 py-3 hover:bg-[#1b4332] transition-colors"
+                    >
+                      CANCEL
+                    </button>
+                    <button type="submit" className="flex-1 bg-[#52b788] text-[#0a1a0f] font-mono font-bold uppercase tracking-widest px-4 py-3 hover:bg-[#74c69d] transition-colors">
+                      CREATE
+                    </button>
+                  </div>
+                </form>
+              </>
+            )}
+          </div>
+        </div>
+      ) : (
+        <div className="h-full flex flex-col bg-[#0a1a0f]">
       {/* Top header bar */}
       <div className="bg-[#0d2818] border-b border-[#1b4332] h-14 shrink-0 flex items-center justify-between px-4 lg:px-6">
         <div className="flex items-center gap-3">
@@ -823,5 +824,7 @@ export default function Collab() {
 
       </div>
     </div>
+    )}
+    </UpgradeGate>
   );
 }
