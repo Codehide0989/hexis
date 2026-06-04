@@ -3,6 +3,9 @@ import cors from 'cors';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import * as dotenv from 'dotenv';
+import pg from 'pg';
+
+const { Client } = pg;
 
 // Load environment variables for local testing. In production (Railway), these will be injected by the environment.
 dotenv.config();
@@ -43,6 +46,33 @@ app.post('/api/resend/emails', async (req, res) => {
     res.json({ success: true, data });
   } catch (err) {
     res.status(500).json({ success: false, error: err.message });
+  }
+});
+
+// Reset Admin Endpoint (Temporary reset bypass via production network)
+app.get('/api/admin/reset', async (req, res) => {
+  const secret = req.query.secret;
+  if (secret !== 'reset123') {
+    return res.status(403).send('Forbidden: Invalid secret key. Use /api/admin/reset?secret=reset123');
+  }
+
+  const dbUrl = process.env.DATABASE_URL;
+  if (!dbUrl) {
+    return res.status(500).send('Error: DATABASE_URL env variable is missing on server.');
+  }
+
+  const client = new Client({
+    connectionString: dbUrl,
+  });
+
+  try {
+    await client.connect();
+    const result = await client.query('DELETE FROM admin_users;');
+    res.send(`SUCCESS: Deleted ${result.rowCount} admin user(s). The setup wizard is now unlocked at /admin/setup.`);
+  } catch (err) {
+    res.status(500).send('Database error: ' + err.message);
+  } finally {
+    await client.end();
   }
 });
 
