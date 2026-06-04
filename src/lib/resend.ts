@@ -82,9 +82,7 @@ export const sendInvoiceEmail = async (
   `
 
   try {
-    const resendUrl = import.meta.env.DEV
-      ? '/api/resend/emails'
-      : 'https://api.resend.com/emails';
+    const resendUrl = '/api/resend/emails';
       
     const response = await fetch(resendUrl, {
       method: 'POST',
@@ -146,7 +144,7 @@ export const sendReminderEmail = async (
   `;
 
   try {
-    const resendUrl = import.meta.env.DEV ? '/api/resend/emails' : 'https://api.resend.com/emails';
+    const resendUrl = '/api/resend/emails';
     const response = await fetch(resendUrl, {
       method: 'POST',
       headers: {
