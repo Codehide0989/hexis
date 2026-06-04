@@ -1,0 +1,21 @@
+{
+  "name": "HEXIS",
+  "short_name": "HEXIS",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#0a1a0f",
+  "theme_color": "#0d2818",
+  "description": "Terminal Operating System",
+  "icons": [
+    {
+      "src": "/hesixpng.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/hesixpng.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
