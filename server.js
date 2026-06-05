@@ -180,4 +180,8 @@ app.post('/api/admin/setup', async (req, res) => {
 app.use(express.static(path.join(__dirname, 'dist')));
 app.get('*', (_req, res) => res.sendFile(path.join(__dirname, 'dist', 'index.html')));
 
-app.listen(PORT, () => console.log(`[HEXIS API] :${PORT}`));
+if (process.env.NODE_ENV !== 'production' && !process.env.VERCEL) {
+  app.listen(PORT, () => console.log(`[HEXIS API] :${PORT}`));
+}
+
+export default app;

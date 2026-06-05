@@ -1,6 +1,12 @@
 {
+  "functions": {
+    "server.js": {
+      "runtime": "@vercel/node"
+    }
+  },
   "rewrites": [
     { "source": "/api/resend/:path*", "destination": "https://api.resend.com/:path*" },
+    { "source": "/api/(.*)", "destination": "/server.js" },
     { "source": "/(.*)", "destination": "/index.html" }
   ],
   "headers": [
