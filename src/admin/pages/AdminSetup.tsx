@@ -92,7 +92,16 @@ export default function AdminSetup() {
 
       if (!response.ok) {
         const errorText = await response.text();
-        throw new Error(errorText || 'Server error during admin setup');
+        let errorMsg = 'Server error during admin setup';
+        try {
+          const errObj = JSON.parse(errorText);
+          if (errObj && errObj.error) {
+            errorMsg = errObj.error;
+          }
+        } catch (e) {
+          if (errorText) errorMsg = errorText;
+        }
+        throw new Error(errorMsg);
       }
 
       const resData = await response.json();

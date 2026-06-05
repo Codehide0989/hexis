@@ -16,10 +16,17 @@ const BOT_SHARED_SECRET = process.env.BOT_SHARED_SECRET || 'change-me';
 app.use(cors());
 app.use(express.json({ limit: '2mb' }));
 
+const databaseUrl = process.env.DATABASE_URL;
+
 const pool = new pg.Pool({
-  connectionString: process.env.DATABASE_URL,
-  ssl: process.env.DATABASE_URL?.includes('supabase')
+  connectionString: databaseUrl,
+  connectionTimeoutMillis: 5000, // Fail fast if database is unreachable (prevent Vercel timeout)
+  ssl: databaseUrl?.includes('supabase')
     ? { rejectUnauthorized: false } : false,
+});
+
+pool.on('error', (err) => {
+  console.error('Unexpected error on idle database client', err);
 });
 
 function checkBotAuth(req, res, next) {
