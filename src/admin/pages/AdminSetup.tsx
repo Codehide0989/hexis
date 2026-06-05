@@ -77,21 +77,30 @@ export default function AdminSetup() {
       const passwordHash = await bcrypt.hash(formData.password, salt);
       const adminId = crypto.randomUUID();
 
-      // Upsert so the admin user is created or updated/reset without breaking foreign keys
-      const { data: insertedAdmin, error: adminError } = await supabase
-        .from('admin_users')
-        .upsert([{
+      // Call backend API endpoint to bypass client-side RLS policies
+      const apiBase = import.meta.env.VITE_API_URL || '';
+      const response = await fetch(`${apiBase}/api/admin/setup`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
           username: formData.username,
           email: formData.email,
           password_hash: passwordHash,
-          md5_hash: md5Key,
-          is_super_admin: true
-        }], { onConflict: 'username' })
-        .select();
+          md5_hash: md5Key
+        })
+      });
 
-      if (adminError) throw adminError;
+      if (!response.ok) {
+        const errorText = await response.text();
+        throw new Error(errorText || 'Server error during admin setup');
+      }
 
-      const adminUser = insertedAdmin?.[0];
+      const resData = await response.json();
+      if (!resData.ok) {
+        throw new Error(resData.error || 'Failed to initialize admin');
+      }
+
+      const adminUser = resData.admin;
       const finalAdminId = adminUser?.id || adminId;
 
       setGeneratedKey(md5Key);

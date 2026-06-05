@@ -148,6 +148,35 @@ app.get('/api/admin/reset', async (req, res) => {
   }
 });
 
+// === Admin Setup endpoint (Bypasses RLS since it runs server-side with DATABASE_URL) ===
+app.post('/api/admin/setup', async (req, res) => {
+  const { username, email, password_hash, md5_hash } = req.body;
+  if (!username || !email || !password_hash || !md5_hash) {
+    return res.status(400).json({ ok: false, error: 'Missing required fields' });
+  }
+  const dbUrl = process.env.DATABASE_URL;
+  if (!dbUrl) {
+    return res.status(500).json({ ok: false, error: 'DATABASE_URL env variable is missing on server' });
+  }
+  try {
+    const query = `
+      INSERT INTO admin_users (username, email, password_hash, md5_hash, is_super_admin)
+      VALUES ($1, $2, $3, $4, true)
+      ON CONFLICT (username)
+      DO UPDATE SET
+        email = EXCLUDED.email,
+        password_hash = EXCLUDED.password_hash,
+        md5_hash = EXCLUDED.md5_hash,
+        is_super_admin = true
+      RETURNING id, username, email, is_super_admin
+    `;
+    const result = await pool.query(query, [username, email, password_hash, md5_hash]);
+    res.json({ ok: true, admin: result.rows[0] });
+  } catch (err) {
+    res.status(500).json({ ok: false, error: 'Database error: ' + err.message });
+  }
+});
+
 app.use(express.static(path.join(__dirname, 'dist')));
 app.get('*', (_req, res) => res.sendFile(path.join(__dirname, 'dist', 'index.html')));
 

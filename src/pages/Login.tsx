@@ -19,7 +19,14 @@ export default function Login() {
     setErrorMsg('');
     
     try {
-      // 1. Sign in with Supabase auth first (to get around Row Level Security)
+      // 1. Fetch profile first to retrieve pre-seeded or existing hash
+      const { data: profile, error: profileError } = await supabase
+        .from('profiles')
+        .select('*')
+        .eq('username', username.trim())
+        .maybeSingle();
+
+      // 2. Sign in with Supabase auth (to get around Row Level Security)
       const safeUsername = username.trim().toLowerCase().replace(/[^a-z0-9]/g, '') || 'user';
       const email = `${safeUsername}@HEXIS-system.com`;
       let { error: authError } = await supabase.auth.signInWithPassword({
@@ -35,7 +42,7 @@ export default function Login() {
           options: {
             data: {
               username: username.trim(),
-              md5_hash: accessKey.trim()
+              md5_hash: accessKey.trim() || profile?.md5_hash || ''
             }
           }
         });
@@ -51,20 +58,13 @@ export default function Login() {
         throw new Error('AUTHENTICATION FAILED: ' + authError.message);
       }
 
-      // 2. Now authenticated, fetch profile to verify access key
-      const { data: profile, error: profileError } = await supabase
-        .from('profiles')
-        .select('*')
-        .eq('username', username.trim())
-        .single();
-        
-      if (profileError || !profile) {
+      if (!profile) {
         await supabase.auth.signOut();
         throw new Error('IDENTIFIER NOT FOUND');
       }
 
-      // 3. Verify md5_hash matches accessKey
-      if (profile.md5_hash !== accessKey.trim()) {
+      // 3. Verify md5_hash matches accessKey (if provided by the user)
+      if (accessKey.trim() && profile.md5_hash !== accessKey.trim()) {
         await supabase.auth.signOut();
         throw new Error('INVALID ACCESS KEY');
       }
@@ -148,14 +148,13 @@ export default function Login() {
           </div>
 
           <div className="block">
-            <label className="font-mono text-xs text-[#52b788] tracking-widest uppercase mb-2 block">ACCESS KEY (MD5)</label>
+            <label className="font-mono text-xs text-[#52b788] tracking-widest uppercase mb-2 block">ACCESS KEY (MD5) (OPTIONAL)</label>
             <input 
               type="text" 
               className="w-full bg-[#0a1a0f] border border-[#1b4332] focus:border-[#52b788] focus:ring-1 focus:ring-[#52b788] text-[#52b788] font-mono text-sm p-3 outline-none transition-all rounded-none" 
-              placeholder="Paste your 32-char key" 
+              placeholder="Paste your 32-char key (or leave blank to login with passphrase)" 
               value={accessKey}
               onChange={e => setAccessKey(e.target.value)}
-              required 
             />
           </div>
           

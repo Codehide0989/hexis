@@ -27,6 +27,10 @@ export default defineConfig({
         target: 'https://api.resend.com',
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/api\/resend/, ''),
+      },
+      '/api/admin': {
+        target: 'http://localhost:3000',
+        changeOrigin: true,
       }
     }
   }
