@@ -1,7 +1,9 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Bell, Search, Lock, PanelLeftClose, Menu } from 'lucide-react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useNotifications } from '../../hooks/useNotifications';
+import { supabase } from '../../lib/supabase';
+import { useAuth } from '../../hooks/useAuth';
 
 interface TopbarProps {
   toggleSidebar: () => void;
@@ -10,12 +12,45 @@ interface TopbarProps {
 }
 
 export default function Topbar({ toggleSidebar, isSidebarOpen, profile }: TopbarProps) {
+  const { user } = useAuth();
   const { notifications, unreadCount, markRead, markAllRead } = useNotifications();
   const navigate = useNavigate();
   const [showNotifDropdown, setShowNotifDropdown] = useState(false);
   const [selectedAnnouncement, setSelectedAnnouncement] = useState<any>(null);
   const location = useLocation();
   const path = location.pathname;
+
+  const [discordAvatar, setDiscordAvatar] = useState<string | null>(null);
+  const [discordName, setDiscordName] = useState<string | null>(null);
+  const [plan, setPlan] = useState<string>('covert');
+
+  useEffect(() => {
+    if (!user?.id) return;
+    const load = async () => {
+      const { data } = await supabase
+        .from('users')
+        .select('discord_avatar, discord_username, plan')
+        .eq('id', user.id)
+        .single();
+      if (data) {
+        setDiscordAvatar(data.discord_avatar || null);
+        setDiscordName(data.discord_username || null);
+        setPlan(data.plan || 'covert');
+      }
+    };
+    load();
+    const ch = supabase.channel('topbar-' + user.id)
+      .on('postgres_changes', {
+        event: 'UPDATE', schema: 'public', table: 'users',
+        filter: `id=eq.${user.id}`,
+      }, (p: any) => {
+        setDiscordAvatar(p.new.discord_avatar || null);
+        setDiscordName(p.new.discord_username || null);
+        setPlan(p.new.plan || 'covert');
+      })
+      .subscribe();
+    return () => { ch.unsubscribe(); };
+  }, [user?.id]);
   
   let moduleName = 'OVERVIEW';
   if (path !== '/dashboard') {
@@ -156,7 +191,26 @@ export default function Topbar({ toggleSidebar, isSidebarOpen, profile }: Topbar
             </>
           )}
         </div>
-        
+
+        {discordAvatar ? (
+          <div className="w-7 h-7 md:w-8 md:h-8 border overflow-hidden cursor-pointer flex-shrink-0"
+               style={{ borderColor: plan === 'apex' ? '#e9c46a' : plan === 'phantom' ? '#b7e4c7' : '#95d5b2' }}
+               onClick={() => navigate('/dashboard/settings')}
+               title={`${discordName || 'Discord'} · ${plan.toUpperCase()}`}>
+            <img src={discordAvatar} alt={discordName || 'discord'} className="w-full h-full object-cover" />
+          </div>
+        ) : (
+          <button onClick={() => navigate('/dashboard/settings')}
+                  className="w-7 h-7 md:w-8 md:h-8 border border-[#1b4332] flex items-center justify-center font-mono text-[10px] text-[#52b788] flex-shrink-0">
+            {initials}
+          </button>
+        )}
+
+        <span className="font-mono text-[9px] tracking-widest px-1.5 py-0.5 uppercase hidden md:inline flex-shrink-0"
+              style={{ color: plan === 'apex' ? '#e9c46a' : '#95d5b2',
+                       border: `1px solid ${plan === 'apex' ? '#e9c46a40' : '#52b78840'}` }}>
+          {plan}
+        </span>
       </div>
 
       {selectedAnnouncement && (

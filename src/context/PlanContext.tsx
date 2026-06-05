@@ -134,6 +134,17 @@ export function PlanProvider({ children }: { children: ReactNode }) {
 
       if (error) throw error
 
+      // Update users table for Discord sync
+      await supabase.from('users').update({
+        plan: newPlan, last_synced_at: new Date().toISOString()
+      }).eq('id', user.id);
+
+      // Log plan_changed sync event
+      await supabase.from('discord_sync_events').insert({
+        user_id: user.id, event_type: 'plan_changed',
+        payload: { plan: newPlan, source: 'website' },
+      });
+
       // Instantly update context state — no refetch needed
       if (isMounted.current) {
         setUserPlan({

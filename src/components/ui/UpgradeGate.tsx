@@ -53,7 +53,7 @@ export function UpgradeGate({
             </span>
           </div>
           <button
-            onClick={() => navigate('/dashboard/plan')}
+            onClick={() => navigate(`/dashboard/plan?plan=${requiredPlan}`)}
             className="w-full py-3 font-mono text-xs uppercase tracking-widest font-bold border transition-colors flex items-center justify-center gap-2 cursor-pointer hover:opacity-90"
             style={{ background: planColor, borderColor: planColor, color: '#0a1a0f' }}>
             UPGRADE TO PRO →

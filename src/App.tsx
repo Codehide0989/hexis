@@ -6,6 +6,7 @@ import Signup from './pages/Signup'
 import Status from './pages/Status'
 import Protocol from './pages/Protocol'
 import Pricing from './pages/Pricing'
+import AuthCallback from './pages/AuthCallback'
 import DashboardLayout from './components/layout/DashboardLayout'
 import Dashboard from './pages/Dashboard'
 import Tasks from './pages/modules/Tasks'
@@ -89,6 +90,7 @@ function AppRoutes() {
         <Route path="/protocol" element={<Protocol />} />
         <Route path="/pricing" element={<Pricing />} />
         <Route path="/banned" element={<Banned />} />
+        <Route path="/auth/discord/callback" element={<AuthCallback />} />
         
         <Route path="/admin/setup" element={<AdminSetup />} />
         <Route path="/admin/login" element={<AdminLogin />} />
