@@ -85,7 +85,8 @@ const Landing = () => {
             <Link to="/pricing" className="font-mono text-xs uppercase tracking-widest text-[#95d5b2] hover:text-[#52b788] transition-colors duration-200">PRICING</Link>
           </div>
           
-          <div className="hidden md:flex items-center">
+          <div className="hidden md:flex items-center gap-6">
+            <Link to="/login" className="font-mono text-xs uppercase tracking-widest text-[#95d5b2] hover:text-[#52b788] transition-colors duration-200">LOGIN</Link>
             <Link to="/signup" className="border border-[#52b788] text-[#52b788] font-mono text-xs tracking-widest uppercase px-4 py-2 hover:bg-[#52b788] hover:text-[#0a1a0f] transition-colors duration-200">INITIALIZE SESSION</Link>
           </div>
 
@@ -104,6 +105,7 @@ const Landing = () => {
             <a href="#features" onClick={() => setMobileMenuOpen(false)} className="font-mono text-sm uppercase tracking-widest text-[#95d5b2] hover:text-[#52b788]">FEATURES</a>
             <Link to="/protocol" onClick={() => setMobileMenuOpen(false)} className="font-mono text-sm uppercase tracking-widest text-[#95d5b2] hover:text-[#52b788]">PROTOCOL</Link>
             <Link to="/pricing" onClick={() => setMobileMenuOpen(false)} className="font-mono text-sm uppercase tracking-widest text-[#95d5b2] hover:text-[#52b788]">PRICING</Link>
+            <Link to="/login" onClick={() => setMobileMenuOpen(false)} className="font-mono text-sm uppercase tracking-widest text-[#95d5b2] hover:text-[#52b788]">LOGIN</Link>
             <Link to="/signup" onClick={() => setMobileMenuOpen(false)} className="border border-[#52b788] text-[#52b788] font-mono text-xs tracking-widest uppercase px-4 py-3 text-center mt-2 hover:bg-[#52b788] hover:text-[#0a1a0f]">INITIALIZE SESSION</Link>
           </div>
         )}

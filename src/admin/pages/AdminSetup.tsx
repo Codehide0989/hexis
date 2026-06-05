@@ -26,11 +26,7 @@ export default function AdminSetup() {
 
   useEffect(() => {
     const verifyStatus = async () => {
-      const exists = await checkAdminExists();
-      if (exists) {
-        navigate('/admin/login', { replace: true });
-        return;
-      }
+      // Allow opening setup wizard always as requested by the user
       setChecking(false);
       runBootSequence();
     };
@@ -81,26 +77,32 @@ export default function AdminSetup() {
       const passwordHash = await bcrypt.hash(formData.password, salt);
       const adminId = crypto.randomUUID();
 
-      const { error: adminError } = await supabase.from('admin_users').insert([{
-        id: adminId,
-        username: formData.username,
-        email: formData.email,
-        password_hash: passwordHash,
-        md5_hash: md5Key,
-        is_super_admin: true
-      }]);
+      // Upsert so the admin user is created or updated/reset without breaking foreign keys
+      const { data: insertedAdmin, error: adminError } = await supabase
+        .from('admin_users')
+        .upsert([{
+          username: formData.username,
+          email: formData.email,
+          password_hash: passwordHash,
+          md5_hash: md5Key,
+          is_super_admin: true
+        }], { onConflict: 'username' })
+        .select();
 
       if (adminError) throw adminError;
+
+      const adminUser = insertedAdmin?.[0];
+      const finalAdminId = adminUser?.id || adminId;
 
       setGeneratedKey(md5Key);
 
       // Session setup
-      const sessionToken = `${adminId}-${Date.now()}`;
+      const sessionToken = `${finalAdminId}-${Date.now()}`;
       localStorage.setItem('admin_token', sessionToken);
-      localStorage.setItem('admin_id', adminId);
+      localStorage.setItem('admin_id', finalAdminId);
       localStorage.setItem('admin_username', formData.username);
       sessionStorage.setItem('admin_token', sessionToken);
-      sessionStorage.setItem('admin_id', adminId);
+      sessionStorage.setItem('admin_id', finalAdminId);
       sessionStorage.setItem('admin_username', formData.username);
 
       toast.success('Admin initialization complete');

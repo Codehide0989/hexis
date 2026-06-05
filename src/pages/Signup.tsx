@@ -37,7 +37,7 @@ export default function Signup() {
     e.preventDefault();
     setErrorMsg('');
     
-    if (password !== confirmPassword) {
+    if (confirmPassword && password !== confirmPassword) {
       setErrorMsg('PASSPHRASES DO NOT MATCH');
       return;
     }
@@ -45,6 +45,19 @@ export default function Signup() {
     setLoading(true);
     
     try {
+      // Check if username already exists in profiles
+      const { data: existingProfile } = await supabase
+        .from('profiles')
+        .select('username')
+        .eq('username', username.trim())
+        .maybeSingle();
+
+      if (existingProfile) {
+        setErrorMsg('IDENTIFIER ALREADY REGISTERED. PLEASE AUTHENTICATE INSTEAD.');
+        setLoading(false);
+        return;
+      }
+
       // a. Generate MD5 hash
       const timestamp = Date.now().toString();
       const hash = md5(username + password + timestamp);
