@@ -1,12 +1,6 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node'
 import { createClient } from '@supabase/supabase-js'
 
-// Use SERVICE ROLE key — bypasses RLS completely
-const supabase = createClient(
-  process.env.SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
-)
-
 export default async function handler(
   req: VercelRequest,
   res: VercelResponse
@@ -22,6 +16,18 @@ export default async function handler(
   if (req.method !== 'POST') {
     return res.status(405).json({ ok: false, error: 'Method not allowed' })
   }
+
+  const supabaseUrl = process.env.SUPABASE_URL
+  const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY
+
+  if (!supabaseUrl || !supabaseKey) {
+    return res.status(500).json({ 
+      ok: false, 
+      error: 'Vercel Env Vars Missing: Please add SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY in Vercel Settings, then do a fresh deployment.' 
+    })
+  }
+
+  const supabase = createClient(supabaseUrl, supabaseKey)
 
   try {
     const { username, email, passwordHash, md5Hash } = req.body
