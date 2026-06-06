@@ -231,7 +231,8 @@ export default function Collab() {
       .single();
       
     if (wsErr || !wsData) {
-      toast.error('Failed to create workspace');
+      console.error('Create workspace error:', wsErr);
+      toast.error('FAILED TO CREATE: ' + (wsErr?.message || 'Unknown error'));
       setLoading(false);
       return;
     }
