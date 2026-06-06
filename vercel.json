@@ -1,7 +1,7 @@
 {
   "rewrites": [
     { "source": "/api/resend/:path*", "destination": "https://api.resend.com/:path*" },
-    { "source": "/api/(.*)", "destination": "/api/server.js" },
+    { "source": "/api/(.*)", "destination": "/api/$1" },
     { "source": "/(.*)", "destination": "/index.html" }
   ],
   "headers": [

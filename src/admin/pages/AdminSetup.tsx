@@ -84,9 +84,8 @@ export default function AdminSetup() {
       const salt = await bcrypt.genSalt(10);
       const passwordHash = await bcrypt.hash(formData.password, salt);
 
-      // Call the server.js API route
-      const apiUrl = import.meta.env.VITE_API_URL || '';
-      const res = await fetch(`${apiUrl}/api/admin/setup`, {
+      // Call Vercel serverless function
+      const res = await fetch('/api/admin-setup', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -97,7 +96,14 @@ export default function AdminSetup() {
         })
       });
 
-      const data = await res.json();
+      // Check response is JSON before parsing:
+      const text = await res.text();
+      let data: any = {};
+      try {
+        data = JSON.parse(text);
+      } catch {
+        throw new Error('Server error: ' + text.slice(0, 100));
+      }
       if (!res.ok || !data.ok) {
         throw new Error(data.error || 'Setup failed');
       }

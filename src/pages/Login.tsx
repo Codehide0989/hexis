@@ -17,77 +17,68 @@ export default function Login() {
     e.preventDefault();
     setLoading(true);
     setErrorMsg('');
-    
+  
     try {
-      // 1. Fetch profile first to retrieve pre-seeded or existing hash
-      const { data: profile, error: profileError } = await supabase
-        .from('profiles')
-        .select('*')
-        .eq('username', username.trim())
-        .maybeSingle();
-
-      // 2. Sign in with Supabase auth (to get around Row Level Security)
-      const safeUsername = username.trim().toLowerCase().replace(/[^a-z0-9]/g, '') || 'user';
-      const email = `${safeUsername}@HEXIS-system.com`;
-      let { error: authError } = await supabase.auth.signInWithPassword({
-        email,
-        password
-      });
-
-      // If user exists in database but not in Auth (pre-seeded), auto-signup
-      if (authError && authError.message.includes('Invalid login credentials')) {
+      const trimmedKey = accessKey.trim();
+  
+      // MD5 key is mandatory
+      if (!trimmedKey) {
+        throw new Error('ACCESS KEY IS REQUIRED');
+      }
+  
+      // Step 1: Verify username + MD5 via RPC (bypasses RLS)
+      const { data: verifyResult, error: verifyError } = 
+        await supabase.rpc('verify_user_login', {
+          p_username: username.trim(),
+          p_md5_hash: trimmedKey
+        });
+  
+      if (verifyError) {
+        throw new Error('DATABASE ERROR: ' + verifyError.message);
+      }
+  
+      if (!verifyResult || verifyResult.length === 0) {
+        throw new Error('INVALID CREDENTIALS OR ACCESS KEY');
+      }
+  
+      const profile = verifyResult[0];
+  
+      if (profile.is_banned) {
+        navigate('/banned');
+        return;
+      }
+  
+      // Step 2: Sign in with Supabase auth
+      const safeUsername = username.trim().toLowerCase()
+        .replace(/[^a-z0-9]/g, '') || 'user';
+      const email = `${safeUsername}@hexis-system.com`;
+  
+      let { error: authError } = await supabase.auth
+        .signInWithPassword({ email, password });
+  
+      // Auto-signup if not in auth yet
+      if (authError?.message?.includes('Invalid login credentials')) {
         const { error: signUpError } = await supabase.auth.signUp({
           email,
           password,
           options: {
-            data: {
-              username: username.trim(),
-              md5_hash: accessKey.trim() || profile?.md5_hash || ''
-            }
+            data: { username: username.trim(), md5_hash: trimmedKey }
           }
         });
-        
         if (!signUpError) {
-          // Retry login after auto-signup
-          const { error: retryError } = await supabase.auth.signInWithPassword({ email, password });
+          const { error: retryError } = await supabase.auth
+            .signInWithPassword({ email, password });
           authError = retryError;
         }
       }
-
+  
       if (authError) {
-        throw new Error('AUTHENTICATION FAILED: ' + authError.message);
+        throw new Error('AUTH FAILED: ' + authError.message);
       }
-
-      if (!profile) {
-        await supabase.auth.signOut();
-        throw new Error('IDENTIFIER NOT FOUND');
-      }
-
-      // 3. Verify md5_hash matches accessKey
-      const trimmedKey = accessKey.trim();
-      if (!trimmedKey) {
-        await supabase.auth.signOut();
-        throw new Error('ACCESS KEY IS REQUIRED');
-      }
-      if (profile.md5_hash !== trimmedKey) {
-        await supabase.auth.signOut();
-        throw new Error('INVALID ACCESS KEY');
-      }
-
-      // 4. Verify user is not banned
-      if (profile.is_banned) {
-        await supabase.auth.signOut();
-        navigate('/banned');
-        return;
-      }
-
-      toast.success('ACCESS GRANTED', { 
-        style: { background: '#0d2818', color: '#52b788', border: '1px solid #1b4332' } 
-      });
+  
       navigate('/dashboard');
-      
     } catch (err: any) {
-      setErrorMsg(err.message || 'AUTHENTICATION FAILED');
+      setErrorMsg(err.message || 'LOGIN FAILED');
     } finally {
       setLoading(false);
     }
