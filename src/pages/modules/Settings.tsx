@@ -257,17 +257,17 @@ export default function Settings() {
 
   return (
     <>
-      <div className="max-w-4xl mx-auto p-3 md:p-6 font-mono text-[var(--color-text)] min-h-full space-y-8">
+      <div className="max-w-4xl mx-auto p-3 md:p-6 font-mono text-[var(--color-text)] min-h-full space-y-4 md:space-y-8">
         
         <div className="border-b border-[var(--color-border)] pb-4 mb-6">
           <h1 className="text-lg md:text-2xl font-bold tracking-widest uppercase">SYSTEM_SETTINGS</h1>
         </div>
 
-        <div className="grid gap-4 md:p-8">
+        <div className="grid gap-4 md:gap-6 md:p-0">
           
           {/* Profile */}
           <section className="bg-[var(--color-surface)] border border-[var(--color-border)] p-4 md:p-6">
-            <h2 className="flex items-center gap-2 text-sm md:text-lg font-bold mb-4 uppercase"><User className="w-5 h-5" /> Profile_Configuration</h2>
+            <h2 className="flex items-center gap-2 text-xs md:text-base font-bold mb-3 md:mb-4 uppercase"><User className="w-5 h-5" /> Profile_Configuration</h2>
             <div className="space-y-4 max-w-md">
               <div>
                 <label className="block text-[10px] md:text-xs text-[var(--color-muted)] mb-1">OPERATOR_ALIAS</label>
@@ -280,7 +280,7 @@ export default function Settings() {
                     }}
                     className="flex-1 w-full bg-[var(--color-bg)] border border-[var(--color-border)] p-2 text-[var(--color-primary)] focus:outline-none focus:border-[var(--color-primary)]"
                   />
-                  <button onClick={handleSaveProfile} disabled={isSaving} className="px-4 py-2 border border-[var(--color-primary)] hover:bg-[var(--color-primary)] hover:text-[var(--color-bg)] transition-colors flex items-center gap-2 text-[var(--color-primary)]">
+                  <button onClick={handleSaveProfile} disabled={isSaving} className="px-3 md:px-4 py-2 border border-[var(--color-primary)] hover:bg-[var(--color-primary)] hover:text-[var(--color-bg)] transition-colors flex items-center gap-2 text-[var(--color-primary)] text-xs md:text-sm shrink-0 whitespace-nowrap">
                     <Save className="w-4 h-4" />
                     {isSaving ? 'SYNCING...' : 'APPLY'}
                   </button>
@@ -291,7 +291,7 @@ export default function Settings() {
 
           {/* Discord Integration */}
           <section className="bg-[var(--color-surface)] border border-[var(--color-border)] p-4 md:p-6">
-            <h2 className="flex items-center gap-2 text-sm md:text-lg font-bold mb-4 uppercase">
+            <h2 className="flex items-center gap-2 text-xs md:text-base font-bold mb-3 md:mb-4 uppercase">
               <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5">
                 <path d="M20.317 4.37a19.79 19.79 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03z"/>
               </svg>
@@ -318,7 +318,7 @@ export default function Settings() {
               ) : linkCode ? (
                 <div className="p-4 bg-[var(--color-bg)] border border-[var(--color-border)] text-center">
                   <p className="text-xs text-[var(--color-text)] uppercase font-bold mb-2">RUN THIS COMMAND IN THE HEXIS DISCORD</p>
-                  <code className="text-lg text-[var(--color-primary)] bg-[#050505] p-3 block mb-4 border border-[var(--color-border)]">/link {linkCode}</code>
+                  <code className="text-sm md:text-lg text-[var(--color-primary)] bg-[#050505] p-2 md:p-3 block mb-3 md:mb-4 border border-[var(--color-border)] break-all">/link {linkCode}</code>
                   <p className="text-[10px] text-[var(--color-muted)]">Code expires in 10 minutes. It syncs your plan with Discord roles.</p>
                 </div>
               ) : (
@@ -340,12 +340,12 @@ export default function Settings() {
 
           {/* Security */}
           <section className="bg-[var(--color-surface)] border border-[var(--color-border)] p-4 md:p-6">
-            <h2 className="flex items-center gap-2 text-sm md:text-lg font-bold mb-4 uppercase"><Shield className="w-5 h-5" /> Security_Keys</h2>
+            <h2 className="flex items-center gap-2 text-xs md:text-base font-bold mb-3 md:mb-4 uppercase"><Shield className="w-5 h-5" /> Security_Keys</h2>
             <div className="space-y-4 max-w-md">
               <div>
                 <label className="block text-[10px] md:text-xs text-[var(--color-muted)] mb-1">MD5_ACCESS_TOKEN</label>
-                <div className="flex items-center justify-between w-full bg-[var(--color-bg)] border border-[var(--color-border)] px-3 py-2">
-                  <span className="tracking-widest font-bold text-[var(--color-text)] overflow-hidden text-ellipsis">
+                <div className="flex items-center justify-between w-full bg-[var(--color-bg)] border border-[var(--color-border)] px-2 md:px-3 py-2 overflow-hidden">
+                  <span className="tracking-widest font-bold text-[var(--color-text)] overflow-hidden text-ellipsis text-xs md:text-sm max-w-[85%]">
                     {showKey ? md5Key : '••••••••••••••••••••••••••••••••'}
                   </span>
                   <button onClick={() => {
@@ -360,7 +360,7 @@ export default function Settings() {
 
           {/* Password Change */}
           <section className="bg-[var(--color-surface)] border border-[var(--color-border)] p-4 md:p-6">
-            <h2 className="flex items-center gap-2 text-sm md:text-lg font-bold mb-4 uppercase">
+            <h2 className="flex items-center gap-2 text-xs md:text-base font-bold mb-3 md:mb-4 uppercase">
               <Lock className="w-5 h-5" /> Change_Password
             </h2>
             <div className="space-y-3 max-w-md">
@@ -405,7 +405,7 @@ export default function Settings() {
 
           {/* Notifications */}
           <section className="bg-[var(--color-surface)] border border-[var(--color-border)] p-4 md:p-6">
-            <h2 className="flex items-center gap-2 text-sm md:text-lg font-bold mb-4 uppercase"><Bell className="w-5 h-5" /> System_Alerts</h2>
+            <h2 className="flex items-center gap-2 text-xs md:text-base font-bold mb-3 md:mb-4 uppercase"><Bell className="w-5 h-5" /> System_Alerts</h2>
             <div className="flex items-center justify-between max-w-md">
               <span className="text-xs md:text-sm text-[var(--color-text)]">Browser push notifications</span>
               <button 
@@ -419,7 +419,7 @@ export default function Settings() {
 
           {/* Currency Settings */}
           <section className="bg-[var(--color-surface)] border border-[var(--color-border)] p-4 md:p-6">
-            <h2 className="flex items-center gap-2 text-sm md:text-lg font-bold mb-4 uppercase">
+            <h2 className="flex items-center gap-2 text-xs md:text-base font-bold mb-3 md:mb-4 uppercase">
               <DollarSign className="w-5 h-5" /> Currency_Settings
             </h2>
             <div className="max-w-md">
@@ -444,7 +444,7 @@ export default function Settings() {
 
           {/* Account Stats */}
           <section className="bg-[var(--color-surface)] border border-[var(--color-border)] p-4 md:p-6">
-            <h2 className="flex items-center gap-2 text-sm md:text-lg font-bold mb-4 uppercase">
+            <h2 className="flex items-center gap-2 text-xs md:text-base font-bold mb-3 md:mb-4 uppercase">
               <Activity className="w-5 h-5" /> Account_Stats
             </h2>
             <div className="grid grid-cols-2 md:grid-cols-3 gap-3 max-w-2xl">
@@ -470,12 +470,12 @@ export default function Settings() {
 
           {/* Data */}
           <section className="bg-[var(--color-surface)] border border-[var(--color-border)] p-4 md:p-6">
-            <h2 className="flex items-center gap-2 text-sm md:text-lg font-bold mb-4 uppercase"><Database className="w-5 h-5" /> Data_Management</h2>
-            <div className="flex flex-wrap gap-4">
-              <button onClick={exportData} className="px-4 py-2 border border-[var(--color-primary)] text-[var(--color-primary)] hover:bg-[var(--color-primary)] hover:text-[var(--color-bg)] transition-colors flex items-center gap-2">
+            <h2 className="flex items-center gap-2 text-xs md:text-base font-bold mb-3 md:mb-4 uppercase"><Database className="w-5 h-5" /> Data_Management</h2>
+            <div className="flex flex-col sm:flex-row gap-2 md:gap-3">
+              <button onClick={exportData} className="flex-1 min-w-0 px-4 py-2 border border-[var(--color-primary)] text-[var(--color-primary)] hover:bg-[var(--color-primary)] hover:text-[var(--color-bg)] transition-colors flex items-center justify-center gap-2">
                 <Download className="w-4 h-4" /> EXPORT_PAYLOAD
               </button>
-              <button onClick={deleteData} className="px-4 py-2 border border-[var(--color-danger)] text-[var(--color-danger)] hover:bg-[var(--color-danger)] hover:text-[var(--color-bg)] transition-colors flex items-center gap-2">
+              <button onClick={deleteData} className="flex-1 min-w-0 px-4 py-2 border border-[var(--color-danger)] text-[var(--color-danger)] hover:bg-[var(--color-danger)] hover:text-[var(--color-bg)] transition-colors flex items-center justify-center gap-2">
                 <Trash2 className="w-4 h-4" /> PURGE_DATABASE
               </button>
             </div>
@@ -483,7 +483,7 @@ export default function Settings() {
 
           {/* Account Danger */}
           <section className="bg-[var(--color-surface)] border border-[var(--color-danger)]/30 p-4 md:p-6">
-            <h2 className="flex items-center gap-2 text-sm md:text-lg font-bold mb-4 uppercase text-[var(--color-danger)]">
+            <h2 className="flex items-center gap-2 text-xs md:text-base font-bold mb-3 md:mb-4 uppercase text-[var(--color-danger)]">
               <AlertTriangle className="w-5 h-5" /> Danger_Zone
             </h2>
             <div className="space-y-3">
@@ -513,7 +513,7 @@ export default function Settings() {
 
           {/* About */}
           <section className="bg-[var(--color-surface)] border border-[var(--color-border)] p-4 md:p-6">
-            <h2 className="flex items-center gap-2 text-sm md:text-lg font-bold mb-4 uppercase"><Info className="w-5 h-5" /> System_Info</h2>
+            <h2 className="flex items-center gap-2 text-xs md:text-base font-bold mb-3 md:mb-4 uppercase"><Info className="w-5 h-5" /> System_Info</h2>
             <div className="space-y-2 text-[10px] md:text-sm text-[var(--color-muted)]">
               <p><span className="font-bold text-[var(--color-primary)]">VERSION:</span> 1.0.0-stable</p>
               <p><span className="font-bold text-[var(--color-primary)]">STACK:</span> React 19, Vite, Tailwind CSS, Supabase, TipTap, Recharts</p>

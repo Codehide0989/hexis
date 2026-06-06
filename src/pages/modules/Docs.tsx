@@ -20,6 +20,7 @@ export default function Docs() {
   const [docs, setDocs] = useState<any[]>([]);
   const [sharedDocs, setSharedDocs] = useState<any[]>([]);
   const [activeDoc, setActiveDoc] = useState<any>(null);
+  const [showSidebar, setShowSidebar] = useState(true);
   
   const [search, setSearch] = useState('');
   const [saveStatus, setSaveStatus] = useState<'SAVED' | 'SAVING...'>('SAVED');
@@ -466,7 +467,7 @@ export default function Docs() {
               {folderDocs.map(doc => (
                 <div 
                   key={doc.id}
-                  onClick={() => setActiveDoc(doc)}
+                  onClick={() => { setActiveDoc(doc); setShowSidebar(false); }}
                   className={`cursor-pointer flex items-center gap-2 py-1.5 hover:bg-[#0a1a0f] font-mono text-xs text-[#95d5b2] hover:text-[#d8f3dc] group ${
                     activeDoc?.id === doc.id ? 'bg-[#0a1a0f] text-[#d8f3dc] border-l-2 border-[#52b788]' : 'border-l-2 border-transparent'
                   } ${depth === 0 ? 'pl-6 pr-3' : depth === 1 ? 'pl-10 pr-3' : 'pl-14 pr-3'}`}
@@ -485,7 +486,7 @@ export default function Docs() {
 
   return (
     <UpgradeGate feature="Docs" requiredPlan="phantom" enabled={canUse('docs')}>
-      <div className="flex h-full font-mono bg-[#0a1a0f] text-[#d8f3dc] overflow-hidden relative">
+      <div className="flex h-full font-mono bg-[#0a1a0f] text-[#d8f3dc] overflow-hidden relative flex-col md:flex-row">
         <style dangerouslySetInnerHTML={{__html: `
           .ProseMirror { outline: none; min-height: 400px; padding-bottom: 2rem; }
           .ProseMirror p { margin-bottom: 1rem; color: #d8f3dc; }
@@ -507,7 +508,7 @@ export default function Docs() {
         {/* SHARE MODAL */}
         {showShareModal && (
           <div className="absolute inset-0 bg-black/80 flex items-center justify-center z-50">
-            <div className="bg-[#0d2818] border border-[#52b788] p-6 w-[400px] shadow-2xl relative">
+            <div className="bg-[#0d2818] border border-[#52b788] p-4 md:p-6 w-[92vw] md:w-[400px] max-w-[400px] shadow-2xl relative">
               <button onClick={() => setShowShareModal(false)} className="absolute top-4 right-4 text-[#95d5b2] hover:text-white transition-colors">
                 <X size={20} />
               </button>
@@ -585,7 +586,13 @@ export default function Docs() {
         )}
 
         {/* LEFT PANEL */}
-        <div className="w-[280px] bg-[#0d2818] border-r border-[#1b4332] flex flex-col shrink-0">
+        <div className={`
+          bg-[#0d2818] border-r border-[#1b4332] flex flex-col shrink-0
+          ${activeDoc && !showSidebar 
+            ? 'hidden md:flex' 
+            : 'flex w-full md:w-[240px]'
+          }
+        `}>
           <div className="p-4 border-b border-[#1b4332] bg-[#0d2818] z-10 shrink-0">
             <div className="relative mb-3">
               <input 
@@ -616,7 +623,7 @@ export default function Docs() {
             {filteredDocs.filter(d => d.folder === 'root' || !d.folder).map(doc => (
                <div 
                  key={doc.id}
-                 onClick={() => setActiveDoc(doc)}
+                 onClick={() => { setActiveDoc(doc); setShowSidebar(false); }}
                  className={`cursor-pointer flex items-center gap-2 px-3 py-1.5 hover:bg-[#0a1a0f] font-mono text-xs text-[#95d5b2] hover:text-[#d8f3dc] group transition-colors ${activeDoc?.id === doc.id ? 'bg-[#0a1a0f] text-[#d8f3dc] border-l-2 border-[#52b788]' : 'border-l-2 border-transparent'}`}
                >
                  <FileText size={14} className="text-[#52b788] shrink-0" />
@@ -635,7 +642,7 @@ export default function Docs() {
                   {filteredSharedDocs.map((doc: any) => (
                     <div 
                       key={doc.id}
-                      onClick={() => setActiveDoc(doc)}
+                      onClick={() => { setActiveDoc(doc); setShowSidebar(false); }}
                       className={`cursor-pointer flex items-center gap-2 px-3 py-1.5 hover:bg-[#0a1a0f] font-mono text-xs text-[#95d5b2] hover:text-[#d8f3dc] group transition-colors ${activeDoc?.id === doc.id ? 'bg-[#0a1a0f] text-[#d8f3dc] border-l-2 border-[#52b788]' : 'border-l-2 border-transparent'}`}
                     >
                       <Users size={14} className="text-[#e9c46a] shrink-0" />
@@ -652,7 +659,13 @@ export default function Docs() {
         </div>
 
         {/* RIGHT PANEL */}
-        <div className="flex-1 flex flex-col bg-[#0a1a0f] overflow-hidden">
+        <div className={`
+          flex-1 flex flex-col bg-[#0a1a0f] overflow-hidden
+          ${!activeDoc || showSidebar 
+            ? 'hidden md:flex' 
+            : 'flex'
+          }
+        `}>
           {!activeDoc ? (
             <div className="flex-1 flex flex-col items-center justify-center relative">
               <div className="absolute inset-0 flex items-center justify-center opacity-5 pointer-events-none">
@@ -663,16 +676,22 @@ export default function Docs() {
             </div>
           ) : (
             <>
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between p-4 border-b border-[#1b4332] bg-[#0d2818] z-10 shrink-0 gap-4">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between p-3 md:p-4 border-b border-[#1b4332] bg-[#0d2818] z-10 shrink-0 gap-3">
+                <button 
+                  onClick={() => setShowSidebar(true)}
+                  className="flex md:hidden items-center gap-2 text-[#52b788] font-mono text-xs border border-[#1b4332] px-3 py-1.5 hover:border-[#52b788] transition-colors self-start shrink-0"
+                >
+                  ← DOCS
+                </button>
                 <input 
-                  className="bg-transparent font-mono font-bold text-xl text-[#d8f3dc] outline-none border-b border-transparent focus:border-[#52b788] px-1 w-full max-w-[60%] transition-colors"
+                  className="bg-transparent font-mono font-bold text-xl text-[#d8f3dc] outline-none border-b border-transparent focus:border-[#52b788] px-1 w-full max-w-full md:max-w-[60%] transition-colors"
                   value={activeDoc.title}
                   onChange={e => hasEditPermission && setActiveDoc({ ...activeDoc, title: e.target.value })}
                   onBlur={e => hasEditPermission && saveTitle(e.target.value)} 
                   readOnly={!hasEditPermission}
                   placeholder="Document Title"
                 />
-                <div className="flex items-center gap-4 shrink-0">
+                <div className="flex items-center gap-2 md:gap-4 shrink-0 flex-wrap">
                   {activeDoc && !activeDoc.is_shared && (
                     <button onClick={() => setShowShareModal(true)} className="flex items-center gap-2 font-mono text-[10px] font-bold tracking-widest text-[#95d5b2] hover:text-[#0a1a0f] px-3 py-1.5 border border-[#1b4332] hover:border-[#52b788] hover:bg-[#52b788] transition-all">
                       <UserPlus size={14} /> SHARE
