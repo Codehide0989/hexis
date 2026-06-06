@@ -25,12 +25,21 @@ export default function AdminSetup() {
   const [generatedKey, setGeneratedKey] = useState<string | null>(null);
 
   useEffect(() => {
-    const verifyStatus = async () => {
-      // Allow opening setup wizard always as requested by the user
+    const check = async () => {
+      try {
+        const exists = await checkAdminExists();
+        if (exists) {
+          // Admin already exists — redirect to login
+          navigate('/admin/login');
+          return;
+        }
+      } catch (e) {
+        console.error('Admin check failed:', e);
+      }
       setChecking(false);
       runBootSequence();
     };
-    verifyStatus();
+    check();
   }, [navigate]);
 
   const runBootSequence = async () => {
@@ -62,71 +71,41 @@ export default function AdminSetup() {
       toast.error('Passwords do not match');
       return;
     }
-    if (!formData.username || !formData.email || !formData.secretPhrase) {
-      toast.error('All fields are required');
-      return;
-    }
 
     try {
       setLoading(true);
-
-      // Generate hashes
       const timestamp = Date.now().toString();
-      const md5Key = md5(formData.username + formData.password + formData.secretPhrase + timestamp);
+      const md5Key = md5(
+        formData.username + 
+        formData.password + 
+        formData.secretPhrase + 
+        timestamp
+      );
       const salt = await bcrypt.genSalt(10);
       const passwordHash = await bcrypt.hash(formData.password, salt);
-      const adminId = crypto.randomUUID();
 
-      // Call backend API endpoint to bypass client-side RLS policies
-      const apiBase = import.meta.env.VITE_API_URL || '';
-      const response = await fetch(`${apiBase}/api/admin/setup`, {
+      // Call the server.js API route
+      const apiUrl = import.meta.env.VITE_API_URL || '';
+      const res = await fetch(`${apiUrl}/api/admin/setup`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          username: formData.username,
-          email: formData.email,
-          password_hash: passwordHash,
-          md5_hash: md5Key
+          username: formData.username.trim(),
+          email: formData.email.trim(),
+          passwordHash,
+          md5Hash: md5Key,
         })
       });
 
-      if (!response.ok) {
-        const errorText = await response.text();
-        let errorMsg = 'Server error during admin setup';
-        try {
-          const errObj = JSON.parse(errorText);
-          if (errObj && errObj.error) {
-            errorMsg = errObj.error;
-          }
-        } catch (e) {
-          if (errorText) errorMsg = errorText;
-        }
-        throw new Error(errorMsg);
+      const data = await res.json();
+      if (!res.ok || !data.ok) {
+        throw new Error(data.error || 'Setup failed');
       }
-
-      const resData = await response.json();
-      if (!resData.ok) {
-        throw new Error(resData.error || 'Failed to initialize admin');
-      }
-
-      const adminUser = resData.admin;
-      const finalAdminId = adminUser?.id || adminId;
 
       setGeneratedKey(md5Key);
-
-      // Session setup
-      const sessionToken = `${finalAdminId}-${Date.now()}`;
-      localStorage.setItem('admin_token', sessionToken);
-      localStorage.setItem('admin_id', finalAdminId);
-      localStorage.setItem('admin_username', formData.username);
-      sessionStorage.setItem('admin_token', sessionToken);
-      sessionStorage.setItem('admin_id', finalAdminId);
-      sessionStorage.setItem('admin_username', formData.username);
-
-      toast.success('Admin initialization complete');
+      toast.success('Admin account created!');
     } catch (err: any) {
-      console.error(err);
-      toast.error(err.message || 'Failed to initialize admin');
+      toast.error(err.message || 'Setup failed');
       setLoading(false);
     }
   };

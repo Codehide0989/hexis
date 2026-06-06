@@ -1,0 +1,568 @@
+{
+  "communities": {
+    "0": [
+      "components_adminlayout_adminlayout",
+      "components_adminroute_adminroute",
+      "components_adminroute_adminrouteprops",
+      "components_adminsidebar_adminsidebar",
+      "components_adminsidebar_adminsidebarprops",
+      "components_admintopbar_admintopbar",
+      "layout_dashboardlayout_dashboardlayout",
+      "lib_adminauth_adminlogin",
+      "lib_adminauth_adminlogout",
+      "lib_adminauth_adminuser",
+      "lib_adminauth_checkadminexists",
+      "lib_adminauth_getcurrentadmin",
+      "lib_adminauth_isadminauthenticated",
+      "lib_adminauth_logadminaction",
+      "lib_settings_settingscontext",
+      "lib_settings_settingscontexttype",
+      "lib_settings_settingsmap",
+      "lib_settings_settingsprovider",
+      "lib_settings_usesettings",
+      "lib_supabase_supabase",
+      "modules_todos_todo",
+      "modules_todos_todosmodule",
+      "pages_adminannouncements_announcement",
+      "pages_adminlogin_adminlogin",
+      "pages_adminlogs_adminlogs",
+      "pages_adminplans_adminplans",
+      "pages_adminplans_planfilter",
+      "pages_adminsettings_tab",
+      "pages_adminsetup_adminsetup",
+      "pages_adminsystem_adminsystem",
+      "pages_adminusers_tab",
+      "pages_banned_banned",
+      "pages_dashboard_activitylog",
+      "pages_dashboard_dashboard",
+      "pages_landing_landing",
+      "pages_pricing_pricing",
+      "pages_protocol_protocol",
+      "pages_status_status",
+      "src_admin_components_adminsidebar_tsx",
+      "src_admin_components_admintopbar_tsx",
+      "src_admin_lib_adminauth_ts",
+      "src_admin_pages_adminanalytics_tsx",
+      "src_admin_pages_adminannouncements_tsx",
+      "src_admin_pages_admindashboard_tsx",
+      "src_admin_pages_adminlogin_tsx",
+      "src_admin_pages_adminmaintenance_tsx",
+      "src_admin_pages_adminsettings_tsx",
+      "src_app_app",
+      "src_app_approutes",
+      "src_app_placeholdermodule",
+      "src_app_tsx",
+      "src_components_ui_announcementbanner_tsx",
+      "src_lib_settings_tsx",
+      "src_lib_supabase_ts",
+      "src_main_tsx",
+      "src_pages_banned_tsx",
+      "src_pages_dashboard_tsx",
+      "src_pages_landing_tsx",
+      "src_pages_modules_todos_tsx",
+      "src_pages_pricing_tsx",
+      "src_pages_protocol_tsx",
+      "src_pages_status_tsx",
+      "ui_announcementbanner_announcement"
+    ],
+    "1": [
+      "auth_loginform_loginform",
+      "auth_signupform_signupform",
+      "context_plancontext_plancontexttype",
+      "context_plancontext_planfeatures",
+      "context_plancontext_planname",
+      "context_plancontext_planprovider",
+      "context_plancontext_useplan",
+      "context_plancontext_userplan",
+      "hooks_useauth_useauth",
+      "layout_privateroute_privateroute",
+      "layout_sidebar_navitems",
+      "layout_sidebar_sidebar",
+      "layout_sidebar_sidebarprops",
+      "lib_auth_profile",
+      "lib_upgradeemail_sendupgradeemail",
+      "lib_upgradeemail_upgradeemaildata",
+      "modules_analytics_analytics",
+      "modules_collab_collab",
+      "modules_docs_docs",
+      "modules_finance_expense_categories",
+      "modules_finance_finance",
+      "modules_finance_income_categories",
+      "modules_finance_transaction",
+      "modules_finance_transactiontype",
+      "modules_invoices_invoice",
+      "modules_invoices_invoices",
+      "modules_invoices_lineitem",
+      "modules_plan_plan",
+      "modules_plan_plans",
+      "modules_vault_vault",
+      "src_components_layout_sidebar_tsx",
+      "src_components_ui_upgradegate_tsx",
+      "src_context_plancontext_tsx",
+      "src_hooks_useauth_ts",
+      "src_lib_auth_ts",
+      "src_lib_upgradeemail_ts",
+      "src_pages_modules_analytics_tsx",
+      "src_pages_modules_collab_tsx",
+      "src_pages_modules_docs_tsx",
+      "src_pages_modules_finance_tsx",
+      "src_pages_modules_invoices_tsx",
+      "src_pages_modules_plan_tsx",
+      "src_pages_modules_vault_tsx",
+      "ui_hexislogo_hexislogo",
+      "ui_hexislogo_hexislogoprops",
+      "ui_upgradegate_upgradegate"
+    ],
+    "2": [
+      "hexis_package_devdependencies",
+      "hexis_package_devdependencies_autoprefixer",
+      "hexis_package_devdependencies_cors",
+      "hexis_package_devdependencies_dotenv",
+      "hexis_package_devdependencies_eslint",
+      "hexis_package_devdependencies_eslint_js",
+      "hexis_package_devdependencies_eslint_plugin_react_hooks",
+      "hexis_package_devdependencies_eslint_plugin_react_refresh",
+      "hexis_package_devdependencies_express",
+      "hexis_package_devdependencies_framer_motion",
+      "hexis_package_devdependencies_globals",
+      "hexis_package_devdependencies_lucide_react",
+      "hexis_package_devdependencies_md5",
+      "hexis_package_devdependencies_pg",
+      "hexis_package_devdependencies_postcss",
+      "hexis_package_devdependencies_react_hot_toast",
+      "hexis_package_devdependencies_react_router_dom",
+      "hexis_package_devdependencies_tailwindcss",
+      "hexis_package_devdependencies_types_bcryptjs",
+      "hexis_package_devdependencies_types_md5",
+      "hexis_package_devdependencies_types_node",
+      "hexis_package_devdependencies_types_react",
+      "hexis_package_devdependencies_typescript",
+      "hexis_package_devdependencies_typescript_eslint",
+      "hexis_package_devdependencies_vite",
+      "hexis_package_devdependencies_vitejs_plugin_react",
+      "lib_md5_auth_hashpassword",
+      "src_lib_md5_auth_ts"
+    ],
+    "3": [
+      "hexis_tsconfig_app_compileroptions",
+      "hexis_tsconfig_app_compileroptions_allowimportingtsextensions",
+      "hexis_tsconfig_app_compileroptions_baseurl",
+      "hexis_tsconfig_app_compileroptions_erasablesyntaxonly",
+      "hexis_tsconfig_app_compileroptions_ignoredeprecations",
+      "hexis_tsconfig_app_compileroptions_jsx",
+      "hexis_tsconfig_app_compileroptions_lib",
+      "hexis_tsconfig_app_compileroptions_module",
+      "hexis_tsconfig_app_compileroptions_moduledetection",
+      "hexis_tsconfig_app_compileroptions_moduleresolution",
+      "hexis_tsconfig_app_compileroptions_noemit",
+      "hexis_tsconfig_app_compileroptions_nofallthroughcasesinswitch",
+      "hexis_tsconfig_app_compileroptions_nounusedlocals",
+      "hexis_tsconfig_app_compileroptions_nounusedparameters",
+      "hexis_tsconfig_app_compileroptions_paths",
+      "hexis_tsconfig_app_compileroptions_skiplibcheck",
+      "hexis_tsconfig_app_compileroptions_target",
+      "hexis_tsconfig_app_compileroptions_tsbuildinfofile",
+      "hexis_tsconfig_app_compileroptions_types",
+      "hexis_tsconfig_app_compileroptions_verbatimmodulesyntax",
+      "hexis_tsconfig_app_include",
+      "hexis_tsconfig_app_paths",
+      "tsconfig_app_json"
+    ],
+    "4": [
+      "hexis_package_dependencies",
+      "hexis_package_dependencies_bcryptjs",
+      "hexis_package_dependencies_clsx",
+      "hexis_package_dependencies_date_fns",
+      "hexis_package_dependencies_dnd_kit_core",
+      "hexis_package_dependencies_dnd_kit_sortable",
+      "hexis_package_dependencies_dnd_kit_utilities",
+      "hexis_package_dependencies_html2canvas",
+      "hexis_package_dependencies_jspdf",
+      "hexis_package_dependencies_react",
+      "hexis_package_dependencies_react_big_calendar",
+      "hexis_package_dependencies_react_dom",
+      "hexis_package_dependencies_recharts",
+      "hexis_package_dependencies_supabase_supabase_js",
+      "hexis_package_dependencies_tailwind_merge",
+      "hexis_package_dependencies_tiptap_extension_placeholder",
+      "hexis_package_dependencies_tiptap_pm",
+      "hexis_package_dependencies_tiptap_react",
+      "hexis_package_dependencies_tiptap_starter_kit",
+      "hexis_package_dependencies_types_jspdf",
+      "hexis_package_dependencies_types_react_big_calendar",
+      "lib_utils_cn",
+      "src_lib_utils_ts"
+    ],
+    "5": [
+      "hexis_tsconfig_node_compileroptions",
+      "hexis_tsconfig_node_compileroptions_allowimportingtsextensions",
+      "hexis_tsconfig_node_compileroptions_erasablesyntaxonly",
+      "hexis_tsconfig_node_compileroptions_lib",
+      "hexis_tsconfig_node_compileroptions_module",
+      "hexis_tsconfig_node_compileroptions_moduledetection",
+      "hexis_tsconfig_node_compileroptions_moduleresolution",
+      "hexis_tsconfig_node_compileroptions_noemit",
+      "hexis_tsconfig_node_compileroptions_nofallthroughcasesinswitch",
+      "hexis_tsconfig_node_compileroptions_nounusedlocals",
+      "hexis_tsconfig_node_compileroptions_nounusedparameters",
+      "hexis_tsconfig_node_compileroptions_skiplibcheck",
+      "hexis_tsconfig_node_compileroptions_target",
+      "hexis_tsconfig_node_compileroptions_tsbuildinfofile",
+      "hexis_tsconfig_node_compileroptions_types",
+      "hexis_tsconfig_node_compileroptions_verbatimmodulesyntax",
+      "hexis_tsconfig_node_include",
+      "tsconfig_node_json"
+    ],
+    "6": [
+      "components_json",
+      "hexis_components_aliases",
+      "hexis_components_aliases_components",
+      "hexis_components_aliases_hooks",
+      "hexis_components_aliases_lib",
+      "hexis_components_aliases_ui",
+      "hexis_components_aliases_utils",
+      "hexis_components_rsc",
+      "hexis_components_schema",
+      "hexis_components_style",
+      "hexis_components_tailwind",
+      "hexis_components_tailwind_basecolor",
+      "hexis_components_tailwind_config",
+      "hexis_components_tailwind_css",
+      "hexis_components_tailwind_cssvariables",
+      "hexis_components_tailwind_prefix",
+      "hexis_components_tsx"
+    ],
+    "7": [
+      "hexis_package_name",
+      "hexis_package_private",
+      "hexis_package_scripts",
+      "hexis_package_scripts_build",
+      "hexis_package_scripts_dev",
+      "hexis_package_scripts_lint",
+      "hexis_package_scripts_preview",
+      "hexis_package_scripts_push_db",
+      "hexis_package_scripts_start",
+      "hexis_package_type",
+      "hexis_package_version",
+      "package_json"
+    ],
+    "8": [
+      "modules_calendar_calendarevent",
+      "modules_calendar_calendarmodule",
+      "modules_calendar_locales",
+      "modules_calendar_localizer",
+      "src_components_ui_timepicker_tsx",
+      "src_pages_modules_calendar_tsx",
+      "ui_datepicker_datepicker",
+      "ui_datepicker_datepickerprops",
+      "ui_timepicker_timepicker",
+      "ui_timepicker_timepickerprops"
+    ],
+    "9": [
+      "public_manifest_background_color",
+      "public_manifest_description",
+      "public_manifest_display",
+      "public_manifest_icons",
+      "public_manifest_json",
+      "public_manifest_name",
+      "public_manifest_short_name",
+      "public_manifest_start_url",
+      "public_manifest_theme_color"
+    ],
+    "10": [
+      "hooks_userealtimedata_activityitem",
+      "hooks_userealtimedata_dashboardstats",
+      "hooks_userealtimedata_defaultstats",
+      "hooks_userealtimedata_formattime",
+      "modules_overview_overview",
+      "modules_settings_settings",
+      "src_hooks_userealtimedata_ts",
+      "src_pages_modules_overview_tsx",
+      "src_pages_modules_settings_tsx"
+    ],
+    "11": [
+      "modules_tasks_droppablecolumn",
+      "modules_tasks_priority",
+      "modules_tasks_priority_colors",
+      "modules_tasks_sortablecard",
+      "modules_tasks_status",
+      "modules_tasks_task",
+      "modules_tasks_tasks",
+      "src_pages_modules_tasks_tsx"
+    ],
+    "12": [
+      "src_components_ui_errorboundary_tsx",
+      "ui_errorboundary_errorboundary",
+      "ui_errorboundary_errorboundary_componentdidcatch",
+      "ui_errorboundary_errorboundary_constructor",
+      "ui_errorboundary_errorboundary_getderivedstatefromerror",
+      "ui_errorboundary_errorboundary_render",
+      "ui_errorboundary_props",
+      "ui_errorboundary_state"
+    ],
+    "13": [
+      "lib_resend_invoiceemaildata",
+      "lib_resend_sendinvoiceemail",
+      "lib_resend_sendreminderemail",
+      "modules_reminders_reminder",
+      "modules_reminders_remindersmodule",
+      "src_lib_resend_ts"
+    ],
+    "14": [
+      "modules_kanban_droppablecolumn",
+      "modules_kanban_kanban",
+      "modules_kanban_kanbancard",
+      "modules_kanban_priority_colors",
+      "modules_kanban_sortablecard",
+      "src_pages_modules_kanban_tsx"
+    ],
+    "15": [
+      "hexis_server_app",
+      "hexis_server_dirname",
+      "hexis_server_filename",
+      "server_js"
+    ],
+    "16": [
+      "lib_razorpay_openrazorpaycheckout",
+      "lib_razorpay_plan_prices",
+      "lib_razorpay_razorpayoptions",
+      "src_lib_razorpay_ts"
+    ],
+    "17": [
+      "layout_topbar_topbar",
+      "layout_topbar_topbarprops",
+      "src_components_layout_topbar_tsx",
+      "src_hooks_usenotifications_ts"
+    ],
+    "18": [
+      "pages_maintenance_maintenance",
+      "pages_maintenance_maintenanceprops",
+      "pages_maintenance_system_messages",
+      "src_pages_maintenance_tsx"
+    ],
+    "19": [
+      "create_missing_tables_js",
+      "hexis_create_missing_tables_client",
+      "hexis_create_missing_tables_run"
+    ],
+    "20": [
+      "hexis_vercel_headers",
+      "hexis_vercel_rewrites",
+      "vercel_json"
+    ],
+    "21": [
+      "hexis_scratch_test_check",
+      "hexis_scratch_test_supabase",
+      "scratch_test_js"
+    ],
+    "22": [
+      "hexis_swagger2_hint",
+      "hexis_swagger2_message",
+      "swagger_json"
+    ],
+    "23": [
+      "hexis_tsconfig_files",
+      "hexis_tsconfig_references",
+      "tsconfig_json"
+    ],
+    "24": [
+      "hexis_reload_schema_reload",
+      "reload_schema_js"
+    ],
+    "25": [
+      "hexis_setup_db_setup",
+      "setup_db_js"
+    ],
+    "26": [
+      "hexis_vite_config_manualchunks",
+      "vite_config_ts"
+    ],
+    "27": [
+      "pages_login_login",
+      "src_pages_login_tsx"
+    ],
+    "28": [
+      "public_sw_js",
+      "public_sw_urlstocache"
+    ],
+    "29": [
+      "scripts_setup_db_js",
+      "scripts_setup_db_setupdatabase"
+    ],
+    "30": [
+      "layout_pagetransition_pagetransition",
+      "src_components_layout_pagetransition_tsx"
+    ],
+    "31": [
+      "pages_signup_signup",
+      "src_pages_signup_tsx"
+    ],
+    "32": [
+      "eslint_config_js"
+    ],
+    "33": [
+      "postcss_config_js"
+    ],
+    "34": [
+      "tailwind_config_js"
+    ],
+    "35": [
+      "ui_emptystate_emptystate"
+    ],
+    "36": [
+      "ui_tableskeleton_tableskeleton"
+    ]
+  },
+  "cohesion": {
+    "0": 0.059395801331285206,
+    "1": 0.09855072463768116,
+    "2": 0.07142857142857142,
+    "3": 0.08695652173913043,
+    "4": 0.08695652173913043,
+    "5": 0.1111111111111111,
+    "6": 0.11764705882352941,
+    "7": 0.16666666666666666,
+    "8": 0.2,
+    "9": 0.2222222222222222,
+    "10": 0.2777777777777778,
+    "11": 0.25,
+    "12": 0.25,
+    "13": 0.4,
+    "14": 0.3333333333333333,
+    "15": 0.5,
+    "16": 0.5,
+    "17": 0.6666666666666666,
+    "18": 0.5,
+    "19": 0.6666666666666666,
+    "20": 0.6666666666666666,
+    "21": 0.6666666666666666,
+    "22": 0.6666666666666666,
+    "23": 0.6666666666666666,
+    "24": 1.0,
+    "25": 1.0,
+    "26": 1.0,
+    "27": 1.0,
+    "28": 1.0,
+    "29": 1.0,
+    "30": 1.0,
+    "31": 1.0,
+    "32": 1.0,
+    "33": 1.0,
+    "34": 1.0,
+    "35": 1.0,
+    "36": 1.0
+  },
+  "gods": [
+    {
+      "id": "hooks_useauth_useauth",
+      "label": "useAuth()",
+      "degree": 36
+    },
+    {
+      "id": "lib_supabase_supabase",
+      "label": "supabase",
+      "degree": 29
+    },
+    {
+      "id": "hexis_tsconfig_app_compileroptions",
+      "label": "compilerOptions",
+      "degree": 20
+    },
+    {
+      "id": "context_plancontext_useplan",
+      "label": "usePlan()",
+      "degree": 17
+    },
+    {
+      "id": "hexis_tsconfig_node_compileroptions",
+      "label": "compilerOptions",
+      "degree": 16
+    },
+    {
+      "id": "modules_reminders_reminder",
+      "label": "Reminder",
+      "degree": 8
+    },
+    {
+      "id": "hexis_package_scripts",
+      "label": "scripts",
+      "degree": 7
+    },
+    {
+      "id": "lib_adminauth_adminuser",
+      "label": "AdminUser",
+      "degree": 7
+    },
+    {
+      "id": "layout_dashboardlayout_dashboardlayout",
+      "label": "DashboardLayout()",
+      "degree": 7
+    },
+    {
+      "id": "ui_upgradegate_upgradegate",
+      "label": "UpgradeGate()",
+      "degree": 7
+    }
+  ],
+  "surprises": [
+    {
+      "source": "cn()",
+      "target": "clsx",
+      "source_files": [
+        "src/lib/utils.ts",
+        "package.json"
+      ],
+      "confidence": "INFERRED",
+      "relation": "calls",
+      "why": "inferred connection - not explicitly stated in source; connects across different repos/directories"
+    },
+    {
+      "source": "hashPassword()",
+      "target": "md5",
+      "source_files": [
+        "src/lib/md5-auth.ts",
+        "package.json"
+      ],
+      "confidence": "INFERRED",
+      "relation": "calls",
+      "why": "inferred connection - not explicitly stated in source; connects across different repos/directories"
+    },
+    {
+      "source": "CalendarModule()",
+      "target": "useAuth()",
+      "source_files": [
+        "src/pages/modules/Calendar.tsx",
+        "src/hooks/useAuth.ts"
+      ],
+      "confidence": "EXTRACTED",
+      "relation": "calls",
+      "why": "bridges separate communities; peripheral node `CalendarModule()` unexpectedly reaches hub `useAuth()`"
+    },
+    {
+      "source": "Kanban()",
+      "target": "useAuth()",
+      "source_files": [
+        "src/pages/modules/Kanban.tsx",
+        "src/hooks/useAuth.ts"
+      ],
+      "confidence": "EXTRACTED",
+      "relation": "calls",
+      "why": "bridges separate communities; peripheral node `Kanban()` unexpectedly reaches hub `useAuth()`"
+    },
+    {
+      "source": "RemindersModule()",
+      "target": "useAuth()",
+      "source_files": [
+        "src/pages/modules/Reminders.tsx",
+        "src/hooks/useAuth.ts"
+      ],
+      "confidence": "EXTRACTED",
+      "relation": "calls",
+      "why": "bridges separate communities; peripheral node `RemindersModule()` unexpectedly reaches hub `useAuth()`"
+    }
+  ],
+  "tokens": {
+    "input": 0,
+    "output": 0
+  }
+}

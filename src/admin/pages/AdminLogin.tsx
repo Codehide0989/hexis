@@ -9,6 +9,7 @@ export default function AdminLogin() {
   const [loading, setLoading] = useState(false);
   const [fails, setFails] = useState(0);
   const [lockout, setLockout] = useState(false);
+  const [error, setError] = useState('');
   
   const [formData, setFormData] = useState({
     username: '',
@@ -25,24 +26,37 @@ export default function AdminLogin() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (lockout) return;
-
+    setLoading(true);
+    setError('');
+    
     try {
-      setLoading(true);
-      await adminLogin(formData.username, formData.password, formData.md5Key);
-      toast.success('ACCESS GRANTED');
-      navigate('/admin/dashboard');
+      const result = await adminLogin(
+        formData.username.trim(), 
+        formData.password, 
+        formData.md5Key.trim()
+      );
+      
+      if (result) {
+        toast.success('ACCESS GRANTED');
+        navigate('/admin/dashboard');
+      }
     } catch (err: any) {
-      console.error(err);
-      toast.error('ACCESS DENIED');
+      const msg = err.message || 'Login failed';
+      if (msg.includes('paraphrase') || msg.includes('passphrase') || msg.includes('data and hash')) {
+        setError('INVALID CREDENTIALS — Check username, password and MD5 key');
+      } else {
+        setError(msg.toUpperCase());
+      }
+      
       setFails(prev => {
         const newFails = prev + 1;
         if (newFails >= 5) {
           setLockout(true);
-          // Simple client-side lockout
           setTimeout(() => setLockout(false), 15 * 60 * 1000); 
         }
         return newFails;
       });
+    } finally {
       setLoading(false);
     }
   };
@@ -76,6 +90,11 @@ export default function AdminLogin() {
             </div>
           ) : (
             <form onSubmit={handleSubmit} className="space-y-6 relative z-10">
+              {error && (
+                <div className="text-red-500 mb-4 text-center text-sm font-bold border border-red-500 p-2 uppercase">
+                  {error}
+                </div>
+              )}
               <div>
                 <label className="block text-xs uppercase tracking-widest text-[#1b4332] mb-2">Username</label>
                 <input

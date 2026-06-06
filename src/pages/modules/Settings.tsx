@@ -5,6 +5,7 @@ import { useAuth } from '../../hooks/useAuth';
 import { toast } from 'react-hot-toast';
 import { useRealtimeData } from '../../hooks/useRealtimeData';
 import { getDiscordOAuthUrl, unlinkDiscord } from '../../lib/discord';
+import { generateDiscordLinkCode } from '../../lib/discordSync';
 
 export default function Settings() {
   const { user } = useAuth();
@@ -18,6 +19,7 @@ export default function Settings() {
   const [discordUsername, setDiscordUsername] = useState<string | null>(null);
   const [discordAvatar, setDiscordAvatar] = useState<string | null>(null);
   const [discordLinkedAt, setDiscordLinkedAt] = useState<string | null>(null);
+  const [linkCode, setLinkCode] = useState<string | null>(null);
   
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -122,10 +124,10 @@ export default function Settings() {
     }
   };
 
-  const startDiscordLink = () => {
-    const state = Math.random().toString(36).slice(2);
-    sessionStorage.setItem('hexis_discord_state', state);
-    window.location.href = getDiscordOAuthUrl(state);
+  const startDiscordLink = async () => {
+    const code = await generateDiscordLinkCode();
+    if (code) setLinkCode(code);
+    else toast.error('Failed to generate link code');
   };
 
   const handleUnlink = async () => {
@@ -306,12 +308,18 @@ export default function Settings() {
                     </div>
                   )}
                   <div className="flex-1 text-center sm:text-left">
-                    <p className="font-bold text-sm text-[var(--color-primary)]">@{discordUsername}</p>
+                    <p className="font-bold text-sm text-[var(--color-primary)]">@{discordUsername} <span className="text-[#52b788] ml-2">LINKED ✓</span></p>
                     <p className="text-[10px] text-[var(--color-muted)] mt-1">LINKED_ON: {discordLinkedAt ? new Date(discordLinkedAt).toLocaleDateString() : 'N/A'}</p>
                   </div>
                   <button onClick={handleUnlink} className="px-4 py-2 border border-[var(--color-danger)] text-[var(--color-danger)] hover:bg-[var(--color-danger)] hover:text-[var(--color-bg)] transition-colors text-xs font-bold uppercase tracking-wider shrink-0">
                     UNLINK
                   </button>
+                </div>
+              ) : linkCode ? (
+                <div className="p-4 bg-[var(--color-bg)] border border-[var(--color-border)] text-center">
+                  <p className="text-xs text-[var(--color-text)] uppercase font-bold mb-2">RUN THIS COMMAND IN THE HEXIS DISCORD</p>
+                  <code className="text-lg text-[var(--color-primary)] bg-[#050505] p-3 block mb-4 border border-[var(--color-border)]">/link {linkCode}</code>
+                  <p className="text-[10px] text-[var(--color-muted)]">Code expires in 10 minutes. It syncs your plan with Discord roles.</p>
                 </div>
               ) : (
                 <div className="p-4 bg-[var(--color-bg)] border border-[var(--color-border)] text-center sm:text-left flex flex-col sm:flex-row items-center justify-between gap-4">

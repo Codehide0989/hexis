@@ -1,0 +1,522 @@
+{
+  "C:\\Users\\DELL\\Downloads\\HEXIS\\components.json": {
+    "mtime": 1780147734.207879,
+    "ast_hash": "62dc66b41cb06871aed58b5931b566c1",
+    "semantic_hash": "62dc66b41cb06871aed58b5931b566c1"
+  },
+  "C:\\Users\\DELL\\Downloads\\HEXIS\\create_doc_collaborators.sql": {
+    "mtime": 1780243865.323204,
+    "ast_hash": "d612e0392cae4b4693a9cd82e328112e",
+    "semantic_hash": "d612e0392cae4b4693a9cd82e328112e"
+  },
+  "C:\\Users\\DELL\\Downloads\\HEXIS\\create_missing_tables.js": {
+    "mtime": 1780162540.247984,
+    "ast_hash": "7612c1a3c07b8d79632a0a1645d63fec",
+    "semantic_hash": "7612c1a3c07b8d79632a0a1645d63fec"
+  },
+  "C:\\Users\\DELL\\Downloads\\HEXIS\\eslint.config.js": {
+    "mtime": 1780142698.4320035,
+    "ast_hash": "0355276bc79439afe3c53e3a2470ca1e",
+    "semantic_hash": "0355276bc79439afe3c53e3a2470ca1e"
+  },
+  "C:\\Users\\DELL\\Downloads\\HEXIS\\fix_admin_plans.sql": {
+    "mtime": 1780409447.8971415,
+    "ast_hash": "a3bc29059015d175d6be8c85b94c42fe",
+    "semantic_hash": "a3bc29059015d175d6be8c85b94c42fe"
+  },
+  "C:\\Users\\DELL\\Downloads\\HEXIS\\fix_announcements.sql": {
+    "mtime": 1780559047.7655387,
+    "ast_hash": "e3992c7af2d0ac164b82710b2f88b6a5",
+    "semantic_hash": "e3992c7af2d0ac164b82710b2f88b6a5"
+  },
+  "C:\\Users\\DELL\\Downloads\\HEXIS\\fix_collab_join.sql": {
+    "mtime": 1780408267.027905,
+    "ast_hash": "8df658b88b0223089693cddd2b796b45",
+    "semantic_hash": "8df658b88b0223089693cddd2b796b45"
+  },
+  "C:\\Users\\DELL\\Downloads\\HEXIS\\fix_collab_tasks.sql": {
+    "mtime": 1780411663.6897347,
+    "ast_hash": "79923116c904d7b992f3d73f0376487c",
+    "semantic_hash": "79923116c904d7b992f3d73f0376487c"
+  },
+  "C:\\Users\\DELL\\Downloads\\HEXIS\\HEXIS_PRODUCTION_DB.sql": {
+    "mtime": 1780207600.3818643,
+    "ast_hash": "28b4077f7f6eb265e50c0bfa7259f383",
+    "semantic_hash": "28b4077f7f6eb265e50c0bfa7259f383"
+  },
+  "C:\\Users\\DELL\\Downloads\\HEXIS\\missing_tables.sql": {
+    "mtime": 1780166644.3157964,
+    "ast_hash": "cb0ea1bf2909ec32040b265c370225ae",
+    "semantic_hash": "cb0ea1bf2909ec32040b265c370225ae"
+  },
+  "C:\\Users\\DELL\\Downloads\\HEXIS\\package.json": {
+    "mtime": 1780324406.3867877,
+    "ast_hash": "dd82de35fd1e52e6b87bf8db913f11c0",
+    "semantic_hash": "dd82de35fd1e52e6b87bf8db913f11c0"
+  },
+  "C:\\Users\\DELL\\Downloads\\HEXIS\\postcss.config.js": {
+    "mtime": 1780149907.6348512,
+    "ast_hash": "ef3ba2a81ba19f8ea5ddf625521e96f0",
+    "semantic_hash": "ef3ba2a81ba19f8ea5ddf625521e96f0"
+  },
+  "C:\\Users\\DELL\\Downloads\\HEXIS\\reload-schema.js": {
+    "mtime": 1780160457.4811337,
+    "ast_hash": "e1c12258d1205737c8264c551da33c7f",
+    "semantic_hash": "e1c12258d1205737c8264c551da33c7f"
+  },
+  "C:\\Users\\DELL\\Downloads\\HEXIS\\schema.sql": {
+    "mtime": 1780152691.914237,
+    "ast_hash": "3a5701fd42c5e2522b518645844ab848",
+    "semantic_hash": "3a5701fd42c5e2522b518645844ab848"
+  },
+  "C:\\Users\\DELL\\Downloads\\HEXIS\\scratch_test.js": {
+    "mtime": 1780159247.908033,
+    "ast_hash": "dabb3a20610049faba700837bf3d58e4",
+    "semantic_hash": "dabb3a20610049faba700837bf3d58e4"
+  },
+  "C:\\Users\\DELL\\Downloads\\HEXIS\\server.js": {
+    "mtime": 1780165899.1570861,
+    "ast_hash": "0175896e20b270162dc691603a364326",
+    "semantic_hash": "0175896e20b270162dc691603a364326"
+  },
+  "C:\\Users\\DELL\\Downloads\\HEXIS\\setup-db.js": {
+    "mtime": 1780160270.529235,
+    "ast_hash": "f64461c2f2fe6cca4143b3069f61e36b",
+    "semantic_hash": "f64461c2f2fe6cca4143b3069f61e36b"
+  },
+  "C:\\Users\\DELL\\Downloads\\HEXIS\\supabase_schema.sql": {
+    "mtime": 1780159927.735648,
+    "ast_hash": "93cf358de4e3f1cfe86cf011ca1904a8",
+    "semantic_hash": "93cf358de4e3f1cfe86cf011ca1904a8"
+  },
+  "C:\\Users\\DELL\\Downloads\\HEXIS\\supabase_tables.sql": {
+    "mtime": 1780213420.2144315,
+    "ast_hash": "16ec1a1ccd0e10e7b7171800a0db7bc7",
+    "semantic_hash": "16ec1a1ccd0e10e7b7171800a0db7bc7"
+  },
+  "C:\\Users\\DELL\\Downloads\\HEXIS\\swagger.json": {
+    "mtime": 1780337290.8184464,
+    "ast_hash": "d41d8cd98f00b204e9800998ecf8427e",
+    "semantic_hash": "d41d8cd98f00b204e9800998ecf8427e"
+  },
+  "C:\\Users\\DELL\\Downloads\\HEXIS\\swagger2.json": {
+    "mtime": 1780337324.0241795,
+    "ast_hash": "0d27f4d5d95ecdb3ca7946e1ea9d436f",
+    "semantic_hash": "0d27f4d5d95ecdb3ca7946e1ea9d436f"
+  },
+  "C:\\Users\\DELL\\Downloads\\HEXIS\\tailwind.config.js": {
+    "mtime": 1780149906.5308146,
+    "ast_hash": "82403edf8944f1780aa417af171baf7a",
+    "semantic_hash": "82403edf8944f1780aa417af171baf7a"
+  },
+  "C:\\Users\\DELL\\Downloads\\HEXIS\\tsconfig.app.json": {
+    "mtime": 1780206151.2232523,
+    "ast_hash": "ecabc710c04b044428960073eaf14480",
+    "semantic_hash": "ecabc710c04b044428960073eaf14480"
+  },
+  "C:\\Users\\DELL\\Downloads\\HEXIS\\tsconfig.json": {
+    "mtime": 1780142698.514291,
+    "ast_hash": "a3d39fa780ebff65444de257f291ce6c",
+    "semantic_hash": "a3d39fa780ebff65444de257f291ce6c"
+  },
+  "C:\\Users\\DELL\\Downloads\\HEXIS\\tsconfig.node.json": {
+    "mtime": 1780142698.5211058,
+    "ast_hash": "70bdd0a673bcfc0e828080b306e7c680",
+    "semantic_hash": "70bdd0a673bcfc0e828080b306e7c680"
+  },
+  "C:\\Users\\DELL\\Downloads\\HEXIS\\vercel.json": {
+    "mtime": 1780559195.8257394,
+    "ast_hash": "8f2320f4bf61f933a1fa1bec32aa2a82",
+    "semantic_hash": "8f2320f4bf61f933a1fa1bec32aa2a82"
+  },
+  "C:\\Users\\DELL\\Downloads\\HEXIS\\vite.config.ts": {
+    "mtime": 1780561476.7114928,
+    "ast_hash": "b2d0eb744ea70dd37e81852f73c305ff",
+    "semantic_hash": "b2d0eb744ea70dd37e81852f73c305ff"
+  },
+  "C:\\Users\\DELL\\Downloads\\HEXIS\\public\\manifest.json": {
+    "mtime": 1780412393.5427473,
+    "ast_hash": "ac6da792603b98c851e1b081d6830038",
+    "semantic_hash": "ac6da792603b98c851e1b081d6830038"
+  },
+  "C:\\Users\\DELL\\Downloads\\HEXIS\\public\\sw.js": {
+    "mtime": 1780164033.908389,
+    "ast_hash": "dc605fb0f9c30f4f43e8301a05a30bbd",
+    "semantic_hash": "dc605fb0f9c30f4f43e8301a05a30bbd"
+  },
+  "C:\\Users\\DELL\\Downloads\\HEXIS\\scripts\\setup-db.js": {
+    "mtime": 1780151973.2569377,
+    "ast_hash": "dae2004d5066bf52df1644679c3e24c1",
+    "semantic_hash": "dae2004d5066bf52df1644679c3e24c1"
+  },
+  "C:\\Users\\DELL\\Downloads\\HEXIS\\src\\App.tsx": {
+    "mtime": 1780383109.0482228,
+    "ast_hash": "3fc8cfee5e75c12325903bcc34befdb0",
+    "semantic_hash": "3fc8cfee5e75c12325903bcc34befdb0"
+  },
+  "C:\\Users\\DELL\\Downloads\\HEXIS\\src\\main.tsx": {
+    "mtime": 1780246383.1662867,
+    "ast_hash": "41a0de59215f7744c255608d61b33511",
+    "semantic_hash": "41a0de59215f7744c255608d61b33511"
+  },
+  "C:\\Users\\DELL\\Downloads\\HEXIS\\src\\admin\\components\\AdminLayout.tsx": {
+    "mtime": 1780405561.2421086,
+    "ast_hash": "ef6a0cf4a36d3cef48f19a9535bc40b0",
+    "semantic_hash": "ef6a0cf4a36d3cef48f19a9535bc40b0"
+  },
+  "C:\\Users\\DELL\\Downloads\\HEXIS\\src\\admin\\components\\AdminRoute.tsx": {
+    "mtime": 1780324406.735065,
+    "ast_hash": "f0e41121b3e67929d9f8aac1b47a75a8",
+    "semantic_hash": "f0e41121b3e67929d9f8aac1b47a75a8"
+  },
+  "C:\\Users\\DELL\\Downloads\\HEXIS\\src\\admin\\components\\AdminSidebar.tsx": {
+    "mtime": 1780559273.0205991,
+    "ast_hash": "45c600c8abbcfb90e5f7e51b4f742a6f",
+    "semantic_hash": "45c600c8abbcfb90e5f7e51b4f742a6f"
+  },
+  "C:\\Users\\DELL\\Downloads\\HEXIS\\src\\admin\\components\\AdminTopbar.tsx": {
+    "mtime": 1780405586.9622016,
+    "ast_hash": "a26218ad1d96b18be39a3017d124de21",
+    "semantic_hash": "a26218ad1d96b18be39a3017d124de21"
+  },
+  "C:\\Users\\DELL\\Downloads\\HEXIS\\src\\admin\\lib\\adminAuth.ts": {
+    "mtime": 1780382065.5839977,
+    "ast_hash": "9f4146b2b8d8f351fa95e232517aaf73",
+    "semantic_hash": "9f4146b2b8d8f351fa95e232517aaf73"
+  },
+  "C:\\Users\\DELL\\Downloads\\HEXIS\\src\\admin\\pages\\AdminAnalytics.tsx": {
+    "mtime": 1780334729.3678195,
+    "ast_hash": "bad8e62fd7ad2eae4c05d11cd5de3bd4",
+    "semantic_hash": "bad8e62fd7ad2eae4c05d11cd5de3bd4"
+  },
+  "C:\\Users\\DELL\\Downloads\\HEXIS\\src\\admin\\pages\\AdminAnnouncements.tsx": {
+    "mtime": 1780558851.3971188,
+    "ast_hash": "bc9939969849d00390b6d049f4a1c3d8",
+    "semantic_hash": "bc9939969849d00390b6d049f4a1c3d8"
+  },
+  "C:\\Users\\DELL\\Downloads\\HEXIS\\src\\admin\\pages\\AdminDashboard.tsx": {
+    "mtime": 1780326767.6664116,
+    "ast_hash": "f776e2d2b31f0c5f43cc6addf2db4041",
+    "semantic_hash": "f776e2d2b31f0c5f43cc6addf2db4041"
+  },
+  "C:\\Users\\DELL\\Downloads\\HEXIS\\src\\admin\\pages\\AdminLogin.tsx": {
+    "mtime": 1780324447.9362555,
+    "ast_hash": "8d47f800a7f0c1964f9a8e34b4e59b66",
+    "semantic_hash": "8d47f800a7f0c1964f9a8e34b4e59b66"
+  },
+  "C:\\Users\\DELL\\Downloads\\HEXIS\\src\\admin\\pages\\AdminLogs.tsx": {
+    "mtime": 1780412400.3867004,
+    "ast_hash": "2a9cafb9ea036ddd97213045e7ed40bf",
+    "semantic_hash": "2a9cafb9ea036ddd97213045e7ed40bf"
+  },
+  "C:\\Users\\DELL\\Downloads\\HEXIS\\src\\admin\\pages\\AdminMaintenance.tsx": {
+    "mtime": 1780404154.7279246,
+    "ast_hash": "4d4719c9412c5d083c5714d3d6bc998b",
+    "semantic_hash": "4d4719c9412c5d083c5714d3d6bc998b"
+  },
+  "C:\\Users\\DELL\\Downloads\\HEXIS\\src\\admin\\pages\\AdminPlans.tsx": {
+    "mtime": 1780409433.7769039,
+    "ast_hash": "a891e68feef7c1468642a681dc6dfa65",
+    "semantic_hash": "a891e68feef7c1468642a681dc6dfa65"
+  },
+  "C:\\Users\\DELL\\Downloads\\HEXIS\\src\\admin\\pages\\AdminSettings.tsx": {
+    "mtime": 1780412400.2606807,
+    "ast_hash": "0fcd6798786857a8574a3ca888decf8f",
+    "semantic_hash": "0fcd6798786857a8574a3ca888decf8f"
+  },
+  "C:\\Users\\DELL\\Downloads\\HEXIS\\src\\admin\\pages\\AdminSetup.tsx": {
+    "mtime": 1780412400.201841,
+    "ast_hash": "a0a39dc289e2bc1fb7a3b1def9615a86",
+    "semantic_hash": "a0a39dc289e2bc1fb7a3b1def9615a86"
+  },
+  "C:\\Users\\DELL\\Downloads\\HEXIS\\src\\admin\\pages\\AdminSystem.tsx": {
+    "mtime": 1780412400.1563826,
+    "ast_hash": "02f1c833c36b036c8e312c2c16919395",
+    "semantic_hash": "02f1c833c36b036c8e312c2c16919395"
+  },
+  "C:\\Users\\DELL\\Downloads\\HEXIS\\src\\admin\\pages\\AdminUsers.tsx": {
+    "mtime": 1780409425.9085903,
+    "ast_hash": "c4982adc9d867db8ebd407052bbbc05f",
+    "semantic_hash": "c4982adc9d867db8ebd407052bbbc05f"
+  },
+  "C:\\Users\\DELL\\Downloads\\HEXIS\\src\\components\\auth\\LoginForm.tsx": {
+    "mtime": 1780206152.3128386,
+    "ast_hash": "228bc193d068dd4a15be168fa5c1a6c4",
+    "semantic_hash": "228bc193d068dd4a15be168fa5c1a6c4"
+  },
+  "C:\\Users\\DELL\\Downloads\\HEXIS\\src\\components\\auth\\SignupForm.tsx": {
+    "mtime": 1780206170.9680352,
+    "ast_hash": "d2219ffe61562168faeb125302025376",
+    "semantic_hash": "d2219ffe61562168faeb125302025376"
+  },
+  "C:\\Users\\DELL\\Downloads\\HEXIS\\src\\components\\layout\\DashboardLayout.tsx": {
+    "mtime": 1780330773.637442,
+    "ast_hash": "5234d7a8b5f30e178d6103e2467c4e0d",
+    "semantic_hash": "5234d7a8b5f30e178d6103e2467c4e0d"
+  },
+  "C:\\Users\\DELL\\Downloads\\HEXIS\\src\\components\\layout\\PageTransition.tsx": {
+    "mtime": 1780160953.4091358,
+    "ast_hash": "75ddfcd3532895dfd721e754775d4339",
+    "semantic_hash": "75ddfcd3532895dfd721e754775d4339"
+  },
+  "C:\\Users\\DELL\\Downloads\\HEXIS\\src\\components\\layout\\PrivateRoute.tsx": {
+    "mtime": 1780200057.6671495,
+    "ast_hash": "b04f24e26efddd61235cf739576928a4",
+    "semantic_hash": "b04f24e26efddd61235cf739576928a4"
+  },
+  "C:\\Users\\DELL\\Downloads\\HEXIS\\src\\components\\layout\\Sidebar.tsx": {
+    "mtime": 1780412746.5496824,
+    "ast_hash": "0364e8ad5ca8c983dbaa54b63b0875a5",
+    "semantic_hash": "0364e8ad5ca8c983dbaa54b63b0875a5"
+  },
+  "C:\\Users\\DELL\\Downloads\\HEXIS\\src\\components\\layout\\Topbar.tsx": {
+    "mtime": 1780331352.6250813,
+    "ast_hash": "eb14571165d1121ad280047fa0b8cd4c",
+    "semantic_hash": "eb14571165d1121ad280047fa0b8cd4c"
+  },
+  "C:\\Users\\DELL\\Downloads\\HEXIS\\src\\components\\ui\\AnnouncementBanner.tsx": {
+    "mtime": 1780205707.397365,
+    "ast_hash": "4285544007aac1a91888ade88a119f6c",
+    "semantic_hash": "4285544007aac1a91888ade88a119f6c"
+  },
+  "C:\\Users\\DELL\\Downloads\\HEXIS\\src\\components\\ui\\DatePicker.tsx": {
+    "mtime": 1780404861.0111167,
+    "ast_hash": "26ae8c1d3369edd7e89f550be5bc6d6b",
+    "semantic_hash": "26ae8c1d3369edd7e89f550be5bc6d6b"
+  },
+  "C:\\Users\\DELL\\Downloads\\HEXIS\\src\\components\\ui\\EmptyState.tsx": {
+    "mtime": 1780161106.427843,
+    "ast_hash": "41e99056058b7700df259311588515ee",
+    "semantic_hash": "41e99056058b7700df259311588515ee"
+  },
+  "C:\\Users\\DELL\\Downloads\\HEXIS\\src\\components\\ui\\ErrorBoundary.tsx": {
+    "mtime": 1780164835.2091267,
+    "ast_hash": "24ceda7efa691957b2d8a8b500665654",
+    "semantic_hash": "24ceda7efa691957b2d8a8b500665654"
+  },
+  "C:\\Users\\DELL\\Downloads\\HEXIS\\src\\components\\ui\\HexisLogo.tsx": {
+    "mtime": 1780412404.234347,
+    "ast_hash": "6e421ba2f45eff19b2495677b5cb1805",
+    "semantic_hash": "6e421ba2f45eff19b2495677b5cb1805"
+  },
+  "C:\\Users\\DELL\\Downloads\\HEXIS\\src\\components\\ui\\TableSkeleton.tsx": {
+    "mtime": 1780161100.4885366,
+    "ast_hash": "842d7025526cb69ea4c47d4ef50e44ca",
+    "semantic_hash": "842d7025526cb69ea4c47d4ef50e44ca"
+  },
+  "C:\\Users\\DELL\\Downloads\\HEXIS\\src\\components\\ui\\TimePicker.tsx": {
+    "mtime": 1780404861.2262726,
+    "ast_hash": "cb02ccc0fc613310adbe77deb760ef65",
+    "semantic_hash": "cb02ccc0fc613310adbe77deb760ef65"
+  },
+  "C:\\Users\\DELL\\Downloads\\HEXIS\\src\\components\\ui\\UpgradeGate.tsx": {
+    "mtime": 1780562684.4167132,
+    "ast_hash": "babe702c2cb49f11b232f518e264f16c",
+    "semantic_hash": "babe702c2cb49f11b232f518e264f16c"
+  },
+  "C:\\Users\\DELL\\Downloads\\HEXIS\\src\\context\\PlanContext.tsx": {
+    "mtime": 1780324102.209516,
+    "ast_hash": "7580c55cdc4a74963c10ade1717e206f",
+    "semantic_hash": "7580c55cdc4a74963c10ade1717e206f"
+  },
+  "C:\\Users\\DELL\\Downloads\\HEXIS\\src\\hooks\\useAuth.ts": {
+    "mtime": 1780166345.1414976,
+    "ast_hash": "241f71e71f8f8bd7a17bd8d5f5b3939a",
+    "semantic_hash": "241f71e71f8f8bd7a17bd8d5f5b3939a"
+  },
+  "C:\\Users\\DELL\\Downloads\\HEXIS\\src\\hooks\\useNotifications.ts": {
+    "mtime": 1780336371.4576995,
+    "ast_hash": "8b8f48f169b866ed08726c254e584d9b",
+    "semantic_hash": "8b8f48f169b866ed08726c254e584d9b"
+  },
+  "C:\\Users\\DELL\\Downloads\\HEXIS\\src\\hooks\\useRealtimeData.ts": {
+    "mtime": 1780305850.6776264,
+    "ast_hash": "c3e5a7a307d1287d166b33e53df4d4c0",
+    "semantic_hash": "c3e5a7a307d1287d166b33e53df4d4c0"
+  },
+  "C:\\Users\\DELL\\Downloads\\HEXIS\\src\\lib\\auth.ts": {
+    "mtime": 1780159915.004367,
+    "ast_hash": "ac18e16097ce077f39bafc8cd30d4ccf",
+    "semantic_hash": "ac18e16097ce077f39bafc8cd30d4ccf"
+  },
+  "C:\\Users\\DELL\\Downloads\\HEXIS\\src\\lib\\md5-auth.ts": {
+    "mtime": 1780147332.238811,
+    "ast_hash": "0285c1f3950bf0824eb246f6d09d0b93",
+    "semantic_hash": "0285c1f3950bf0824eb246f6d09d0b93"
+  },
+  "C:\\Users\\DELL\\Downloads\\HEXIS\\src\\lib\\razorpay.ts": {
+    "mtime": 1780338337.4074006,
+    "ast_hash": "acb8bb5fe0dff7d84fd7d13afeae18a0",
+    "semantic_hash": "acb8bb5fe0dff7d84fd7d13afeae18a0"
+  },
+  "C:\\Users\\DELL\\Downloads\\HEXIS\\src\\lib\\resend.ts": {
+    "mtime": 1780559195.8831215,
+    "ast_hash": "591d5c059336ece0baaa3a51d2702d3d",
+    "semantic_hash": "591d5c059336ece0baaa3a51d2702d3d"
+  },
+  "C:\\Users\\DELL\\Downloads\\HEXIS\\src\\lib\\settings.tsx": {
+    "mtime": 1780412400.5351586,
+    "ast_hash": "025544b464e08a634f614ca1b6a6bbf3",
+    "semantic_hash": "025544b464e08a634f614ca1b6a6bbf3"
+  },
+  "C:\\Users\\DELL\\Downloads\\HEXIS\\src\\lib\\supabase.ts": {
+    "mtime": 1780206575.326397,
+    "ast_hash": "5de1a79dca33d6ceba7ae23c0cf114d2",
+    "semantic_hash": "5de1a79dca33d6ceba7ae23c0cf114d2"
+  },
+  "C:\\Users\\DELL\\Downloads\\HEXIS\\src\\lib\\upgradeEmail.ts": {
+    "mtime": 1780336711.5125844,
+    "ast_hash": "66fd2dc7944677d30bb6f99eca1b359f",
+    "semantic_hash": "66fd2dc7944677d30bb6f99eca1b359f"
+  },
+  "C:\\Users\\DELL\\Downloads\\HEXIS\\src\\lib\\utils.ts": {
+    "mtime": 1780147734.1308951,
+    "ast_hash": "ea1c194ee828369e6fcdde84b4d8b8ba",
+    "semantic_hash": "ea1c194ee828369e6fcdde84b4d8b8ba"
+  },
+  "C:\\Users\\DELL\\Downloads\\HEXIS\\src\\pages\\Banned.tsx": {
+    "mtime": 1780329428.7533703,
+    "ast_hash": "336a2675d755abda2a82aa4a3ab8a392",
+    "semantic_hash": "336a2675d755abda2a82aa4a3ab8a392"
+  },
+  "C:\\Users\\DELL\\Downloads\\HEXIS\\src\\pages\\Dashboard.tsx": {
+    "mtime": 1780206574.9898143,
+    "ast_hash": "680fda4d62625379d4d25fa84b6427a1",
+    "semantic_hash": "680fda4d62625379d4d25fa84b6427a1"
+  },
+  "C:\\Users\\DELL\\Downloads\\HEXIS\\src\\pages\\Landing.tsx": {
+    "mtime": 1780412408.1457593,
+    "ast_hash": "a7ba1dea46c629bd5eb0fa011c3638e1",
+    "semantic_hash": "a7ba1dea46c629bd5eb0fa011c3638e1"
+  },
+  "C:\\Users\\DELL\\Downloads\\HEXIS\\src\\pages\\Login.tsx": {
+    "mtime": 1780412410.5618465,
+    "ast_hash": "2212e13d715aa17d7210990ec02e264c",
+    "semantic_hash": "2212e13d715aa17d7210990ec02e264c"
+  },
+  "C:\\Users\\DELL\\Downloads\\HEXIS\\src\\pages\\Maintenance.tsx": {
+    "mtime": 1780412400.6168957,
+    "ast_hash": "6aaf0c57e5e5c67f3a9ed8bd38c6991b",
+    "semantic_hash": "6aaf0c57e5e5c67f3a9ed8bd38c6991b"
+  },
+  "C:\\Users\\DELL\\Downloads\\HEXIS\\src\\pages\\Pricing.tsx": {
+    "mtime": 1780412418.5877652,
+    "ast_hash": "754905f3a0da6e1158b1840163546396",
+    "semantic_hash": "754905f3a0da6e1158b1840163546396"
+  },
+  "C:\\Users\\DELL\\Downloads\\HEXIS\\src\\pages\\Protocol.tsx": {
+    "mtime": 1780412423.811872,
+    "ast_hash": "2d1fd5b7b55bd125464b7f7cff461fc4",
+    "semantic_hash": "2d1fd5b7b55bd125464b7f7cff461fc4"
+  },
+  "C:\\Users\\DELL\\Downloads\\HEXIS\\src\\pages\\Signup.tsx": {
+    "mtime": 1780412412.796757,
+    "ast_hash": "22e5b15ed49476b3fae1f19b8767fa4a",
+    "semantic_hash": "22e5b15ed49476b3fae1f19b8767fa4a"
+  },
+  "C:\\Users\\DELL\\Downloads\\HEXIS\\src\\pages\\Status.tsx": {
+    "mtime": 1780412428.3932214,
+    "ast_hash": "e239d4f947c5ccf17f84bb5e5af121e3",
+    "semantic_hash": "e239d4f947c5ccf17f84bb5e5af121e3"
+  },
+  "C:\\Users\\DELL\\Downloads\\HEXIS\\src\\pages\\modules\\Analytics.tsx": {
+    "mtime": 1780324110.511338,
+    "ast_hash": "383988fdfeeb4c803bc38bf6449dd24e",
+    "semantic_hash": "383988fdfeeb4c803bc38bf6449dd24e"
+  },
+  "C:\\Users\\DELL\\Downloads\\HEXIS\\src\\pages\\modules\\Calendar.tsx": {
+    "mtime": 1780559375.8331091,
+    "ast_hash": "1eeec7c955965b151f65a6ad276282bd",
+    "semantic_hash": "1eeec7c955965b151f65a6ad276282bd"
+  },
+  "C:\\Users\\DELL\\Downloads\\HEXIS\\src\\pages\\modules\\Collab.tsx": {
+    "mtime": 1780562765.4804072,
+    "ast_hash": "5bc6cab1ae34460ce9e8939ffd3525d3",
+    "semantic_hash": "5bc6cab1ae34460ce9e8939ffd3525d3"
+  },
+  "C:\\Users\\DELL\\Downloads\\HEXIS\\src\\pages\\modules\\Docs.tsx": {
+    "mtime": 1780339025.8148954,
+    "ast_hash": "6e53e9434606fe5a230052856ce2ef4f",
+    "semantic_hash": "6e53e9434606fe5a230052856ce2ef4f"
+  },
+  "C:\\Users\\DELL\\Downloads\\HEXIS\\src\\pages\\modules\\Finance.tsx": {
+    "mtime": 1780324110.2362561,
+    "ast_hash": "626ca02d4ef383ae86255230e4467b81",
+    "semantic_hash": "626ca02d4ef383ae86255230e4467b81"
+  },
+  "C:\\Users\\DELL\\Downloads\\HEXIS\\src\\pages\\modules\\Invoices.tsx": {
+    "mtime": 1780324108.9005482,
+    "ast_hash": "7368b9ab74ea80973a5fddd617f0eeca",
+    "semantic_hash": "7368b9ab74ea80973a5fddd617f0eeca"
+  },
+  "C:\\Users\\DELL\\Downloads\\HEXIS\\src\\pages\\modules\\Kanban.tsx": {
+    "mtime": 1780206575.006008,
+    "ast_hash": "532c44085e8ccecc586e3f303b25bd99",
+    "semantic_hash": "532c44085e8ccecc586e3f303b25bd99"
+  },
+  "C:\\Users\\DELL\\Downloads\\HEXIS\\src\\pages\\modules\\Overview.tsx": {
+    "mtime": 1780202219.0718048,
+    "ast_hash": "c6e3e208db6a4cf92eccc6bf7503b081",
+    "semantic_hash": "c6e3e208db6a4cf92eccc6bf7503b081"
+  },
+  "C:\\Users\\DELL\\Downloads\\HEXIS\\src\\pages\\modules\\Plan.tsx": {
+    "mtime": 1780336259.161647,
+    "ast_hash": "261f4a73c306f0394e4e5207bb7e28fe",
+    "semantic_hash": "261f4a73c306f0394e4e5207bb7e28fe"
+  },
+  "C:\\Users\\DELL\\Downloads\\HEXIS\\src\\pages\\modules\\Reminders.tsx": {
+    "mtime": 1780412395.8672898,
+    "ast_hash": "1877c2ca4d66d0c6753834e4ce2ae248",
+    "semantic_hash": "1877c2ca4d66d0c6753834e4ce2ae248"
+  },
+  "C:\\Users\\DELL\\Downloads\\HEXIS\\src\\pages\\modules\\Settings.tsx": {
+    "mtime": 1780307744.499125,
+    "ast_hash": "5c81b80695767b29da0e4f1a6b44cba8",
+    "semantic_hash": "5c81b80695767b29da0e4f1a6b44cba8"
+  },
+  "C:\\Users\\DELL\\Downloads\\HEXIS\\src\\pages\\modules\\Tasks.tsx": {
+    "mtime": 1780562126.41506,
+    "ast_hash": "fbfa2477539a88ba119c2e5d7e14e9a4",
+    "semantic_hash": "fbfa2477539a88ba119c2e5d7e14e9a4"
+  },
+  "C:\\Users\\DELL\\Downloads\\HEXIS\\src\\pages\\modules\\Todos.tsx": {
+    "mtime": 1780307586.1957505,
+    "ast_hash": "a06f1061f1f6c0d4e5edeb5389567ab7",
+    "semantic_hash": "a06f1061f1f6c0d4e5edeb5389567ab7"
+  },
+  "C:\\Users\\DELL\\Downloads\\HEXIS\\src\\pages\\modules\\Vault.tsx": {
+    "mtime": 1780339025.8476498,
+    "ast_hash": "9f82c25b7c78db9f54c83c3695eb6318",
+    "semantic_hash": "9f82c25b7c78db9f54c83c3695eb6318"
+  },
+  "C:\\Users\\DELL\\Downloads\\HEXIS\\index.html": {
+    "mtime": 1780412390.8113806,
+    "ast_hash": "17d2af595b558f34639b27507b2b7a43",
+    "semantic_hash": "17d2af595b558f34639b27507b2b7a43"
+  },
+  "C:\\Users\\DELL\\Downloads\\HEXIS\\md5-login.txt": {
+    "mtime": 1780563323.680025,
+    "ast_hash": "787cbc78ba94e81d50151b70ccdb5207",
+    "semantic_hash": "787cbc78ba94e81d50151b70ccdb5207"
+  },
+  "C:\\Users\\DELL\\Downloads\\HEXIS\\README.md": {
+    "mtime": 1780142698.5459516,
+    "ast_hash": "f6e3faf55d738cf2affe1b44195f27cf",
+    "semantic_hash": "f6e3faf55d738cf2affe1b44195f27cf"
+  },
+  "C:\\Users\\DELL\\Downloads\\HEXIS\\.github\\copilot-instructions.md": {
+    "mtime": 1780584888.3013325,
+    "ast_hash": "2b23503628bf2ec71d067a85ca8948ab",
+    "semantic_hash": "2b23503628bf2ec71d067a85ca8948ab"
+  },
+  "C:\\Users\\DELL\\Downloads\\HEXIS\\public\\favicon.svg": {
+    "mtime": 1780163963.7074535,
+    "ast_hash": "28754a75ac712bd8c9e06c344c7d8900",
+    "semantic_hash": "28754a75ac712bd8c9e06c344c7d8900"
+  },
+  "C:\\Users\\DELL\\Downloads\\HEXIS\\public\\hesixpng.png": {
+    "mtime": 1780336888.9764977,
+    "ast_hash": "657d9542eb0f91920a6480d7b2a115af",
+    "semantic_hash": "657d9542eb0f91920a6480d7b2a115af"
+  }
+}

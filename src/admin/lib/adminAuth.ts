@@ -36,17 +36,25 @@ export const adminLogin = async (username: string, passwordText: string, md5Key:
 
     const adminUser = adminData[0];
 
-    // Check MD5 Key
-    if (adminUser.md5_hash !== md5Key) {
-      console.error('MD5 Key mismatch');
-      throw new Error('Invalid admin key');
+    // Check MD5 Key FIRST (fast check)
+    if (!md5Key || adminUser.md5_hash !== md5Key.trim()) {
+      throw new Error('INVALID ACCESS KEY');
     }
 
-    // Check Password
-    const passwordMatch = await bcrypt.compare(passwordText, adminUser.password_hash);
+    // Check Password with bcrypt
+    let passwordMatch = false;
+    try {
+      passwordMatch = await bcrypt.compare(
+        passwordText, 
+        adminUser.password_hash
+      );
+    } catch (bcryptErr) {
+      console.error('bcrypt error:', bcryptErr);
+      throw new Error('PASSWORD VERIFICATION FAILED');
+    }
+    
     if (!passwordMatch) {
-      console.error('Password mismatch');
-      throw new Error('Invalid credentials');
+      throw new Error('INVALID CREDENTIALS');
     }
 
     // Generate a simple token (in a real app, this should be a secure JWT signed by server)

@@ -157,30 +157,38 @@ app.get('/api/admin/reset', async (req, res) => {
 
 // === Admin Setup endpoint (Bypasses RLS since it runs server-side with DATABASE_URL) ===
 app.post('/api/admin/setup', async (req, res) => {
-  const { username, email, password_hash, md5_hash } = req.body;
-  if (!username || !email || !password_hash || !md5_hash) {
-    return res.status(400).json({ ok: false, error: 'Missing required fields' });
-  }
-  const dbUrl = process.env.DATABASE_URL;
-  if (!dbUrl) {
-    return res.status(500).json({ ok: false, error: 'DATABASE_URL env variable is missing on server' });
-  }
   try {
-    const query = `
-      INSERT INTO admin_users (username, email, password_hash, md5_hash, is_super_admin)
+    const { username, email, passwordHash, md5Hash } = req.body;
+    
+    if (!username || !passwordHash || !md5Hash) {
+      return res.status(400).json({ 
+        ok: false, error: 'Missing required fields' 
+      });
+    }
+
+    // Check if admin already exists
+    const check = await pool.query(
+      'SELECT id FROM admin_users LIMIT 1'
+    );
+    if (check.rows.length > 0) {
+      return res.status(409).json({ 
+        ok: false, error: 'Admin already exists' 
+      });
+    }
+
+    const result = await pool.query(`
+      INSERT INTO admin_users 
+        (username, email, password_hash, md5_hash, is_super_admin)
       VALUES ($1, $2, $3, $4, true)
-      ON CONFLICT (username)
-      DO UPDATE SET
-        email = EXCLUDED.email,
-        password_hash = EXCLUDED.password_hash,
-        md5_hash = EXCLUDED.md5_hash,
-        is_super_admin = true
       RETURNING id, username, email, is_super_admin
-    `;
-    const result = await pool.query(query, [username, email, password_hash, md5_hash]);
+    `, [username, email || null, passwordHash, md5Hash]);
+
     res.json({ ok: true, admin: result.rows[0] });
   } catch (err) {
-    res.status(500).json({ ok: false, error: 'Database error: ' + err.message });
+    console.error('Admin setup error:', err);
+    res.status(500).json({ 
+      ok: false, error: err.message 
+    });
   }
 });
 

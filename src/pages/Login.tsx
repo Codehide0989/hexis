@@ -63,8 +63,13 @@ export default function Login() {
         throw new Error('IDENTIFIER NOT FOUND');
       }
 
-      // 3. Verify md5_hash matches accessKey (if provided by the user)
-      if (accessKey.trim() && profile.md5_hash !== accessKey.trim()) {
+      // 3. Verify md5_hash matches accessKey
+      const trimmedKey = accessKey.trim();
+      if (!trimmedKey) {
+        await supabase.auth.signOut();
+        throw new Error('ACCESS KEY IS REQUIRED');
+      }
+      if (profile.md5_hash !== trimmedKey) {
         await supabase.auth.signOut();
         throw new Error('INVALID ACCESS KEY');
       }
@@ -148,11 +153,12 @@ export default function Login() {
           </div>
 
           <div className="block">
-            <label className="font-mono text-xs text-[#52b788] tracking-widest uppercase mb-2 block">ACCESS KEY (MD5) (OPTIONAL)</label>
+            <label className="font-mono text-xs text-[#52b788] tracking-widest uppercase mb-2 block">ACCESS KEY (MD5)</label>
             <input 
               type="text" 
+              required
               className="w-full bg-[#0a1a0f] border border-[#1b4332] focus:border-[#52b788] focus:ring-1 focus:ring-[#52b788] text-[#52b788] font-mono text-sm p-3 outline-none transition-all rounded-none" 
-              placeholder="Paste your 32-char key (or leave blank to login with passphrase)" 
+              placeholder="Paste your 32-char key" 
               value={accessKey}
               onChange={e => setAccessKey(e.target.value)}
             />
