@@ -64,41 +64,61 @@ export default function Collab() {
   const loadWorkspace = async (wsId: string) => {
     if (!user?.id) return;
     
-    // 1. Query workspace_members JOIN collab_workspaces
-    const { data: memberData, error: memberErr } = await supabase
-      .from('workspace_members')
-      .select('role, collab_workspaces(*)')
-      .eq('workspace_id', wsId)
-      .eq('user_id', user.id)
-      .single();
+    try {
+      // Use maybeSingle() instead of single()
+      // single() throws error if 0 rows — maybeSingle() returns null
+      const { data: memberData, error: memberErr } = await supabase
+        .from('workspace_members')
+        .select('role, collab_workspaces(*)')
+        .eq('workspace_id', wsId)
+        .eq('user_id', user.id)
+        .maybeSingle();
 
-    if (memberErr || !memberData || !memberData.collab_workspaces) {
-      // 2. If not found: clear localStorage, show join screen
-      localStorage.removeItem('hexis_workspace_id');
-      setWorkspace(null);
-      setLoading(false);
-      return;
+      // Only clear localStorage if we got a definitive "not a member"
+      // NOT on network errors or RLS errors
+      if (memberErr) {
+        console.warn('[Collab] loadWorkspace error:', memberErr.message)
+        // Don't clear localStorage on error — might be temporary
+        // Just stop loading and show join screen
+        if (isMounted.current) setLoading(false)
+        return
+      }
+
+      if (!memberData || !memberData.collab_workspaces) {
+        // Confirmed: user is not a member of this workspace
+        localStorage.removeItem('hexis_workspace_id')
+        if (isMounted.current) {
+          setWorkspace(null)
+          setLoading(false)
+        }
+        return
+      }
+
+      const ws = memberData.collab_workspaces as any
+
+      if (isMounted.current) {
+        setWorkspace(ws)
+        setMyRole(memberData.role)
+        setProtocol(ws.description || '')
+      }
+
+      await Promise.all([
+        loadMembers(wsId),
+        loadMessages(wsId),
+        loadSharedTasks(wsId),
+        loadActivities(wsId),
+        loadReactions(wsId)
+      ])
+
+      subscribeRealtime(wsId)
+    } catch (err: any) {
+      console.error('[Collab] loadWorkspace exception:', err.message)
+      // Network error — don't clear localStorage
+      // User might be offline temporarily
+      if (isMounted.current) setLoading(false)
+    } finally {
+      if (isMounted.current) setLoading(false)
     }
-
-    const ws = memberData.collab_workspaces as any;
-    
-    // 3. Set workspace, myRole, protocol
-    setWorkspace(ws);
-    setMyRole(memberData.role);
-    setProtocol(ws.description || '');
-
-    // 4. Parallel load
-    await Promise.all([
-      loadMembers(wsId),
-      loadMessages(wsId),
-      loadSharedTasks(wsId),
-      loadActivities(wsId),
-      loadReactions(wsId)
-    ]);
-
-    // 5. Call subscribeRealtime
-    subscribeRealtime(wsId);
-    setLoading(false);
   };
 
   const loadMembers = async (wsId: string) => {
@@ -216,6 +236,9 @@ export default function Collab() {
       return;
     }
     
+    // Save to localStorage RIGHT AWAY before any other async ops
+    localStorage.setItem('hexis_workspace_id', wsData.id);
+    
     await supabase.from('workspace_members').insert({
       workspace_id: wsData.id,
       user_id: user.id,
@@ -229,52 +252,78 @@ export default function Collab() {
   };
 
   const joinWorkspace = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!inviteCode.trim() || !user) return;
+    e.preventDefault()
+    if (!inviteCode.trim() || !user) return
     
-    setLoading(true);
+    setLoading(true)
     
+    const cleanCode = inviteCode.trim().toUpperCase()
+    
+    // Step 1: Find workspace by invite code
+    // Use maybeSingle() — no error if not found
     const { data: wsData, error: wsErr } = await supabase
       .from('collab_workspaces')
       .select('*')
-      .eq('invite_code', inviteCode.toUpperCase())
-      .single();
-      
-    if (wsErr || !wsData) {
-      toast.error('Invalid invite code');
-      setLoading(false);
-      return;
+      .eq('invite_code', cleanCode)
+      .eq('is_active', true)
+      .maybeSingle()
+
+    if (wsErr) {
+      console.error('[Collab] join lookup error:', wsErr)
+      toast.error('DATABASE ERROR: ' + wsErr.message)
+      setLoading(false)
+      return
     }
-    
-    const { data: existing } = await supabase
+
+    if (!wsData) {
+      toast.error('INVALID CODE — No workspace found with this code')
+      setLoading(false)
+      return
+    }
+
+    // Step 2: Check if already a member
+    const { data: existing, error: existErr } = await supabase
       .from('workspace_members')
-      .select('*')
+      .select('workspace_id, role')
       .eq('workspace_id', wsData.id)
       .eq('user_id', user.id)
-      .single();
-      
+      .maybeSingle()
+
     if (existing) {
-      toast('ALREADY A MEMBER', { icon: 'ℹ️' });
-      localStorage.setItem('hexis_workspace_id', wsData.id);
-      loadWorkspace(wsData.id);
-      return;
+      // Already member — just load it
+      toast.success('RECONNECTING TO WORKSPACE...')
+      localStorage.setItem('hexis_workspace_id', wsData.id)
+      await loadWorkspace(wsData.id)
+      return
     }
-    
-    const { error: joinErr } = await supabase.from('workspace_members').insert({
-      workspace_id: wsData.id,
-      user_id: user.id,
-      role: 'viewer'
-    });
-    
+
+    // Step 3: Join workspace
+    const { error: joinErr } = await supabase
+      .from('workspace_members')
+      .insert({
+        workspace_id: wsData.id,
+        user_id: user.id,
+        role: 'viewer'
+      })
+
     if (joinErr) {
-      toast.error('Failed to join');
-      setLoading(false);
-      return;
+      // Handle duplicate (race condition)
+      if (joinErr.code === '23505') {
+        localStorage.setItem('hexis_workspace_id', wsData.id)
+        await loadWorkspace(wsData.id)
+        return
+      }
+      console.error('[Collab] join insert error:', joinErr)
+      toast.error('JOIN FAILED: ' + joinErr.message)
+      setLoading(false)
+      return
     }
-    
-    await logActivity(wsData.id, 'MEMBER_JOINED', '');
-    localStorage.setItem('hexis_workspace_id', wsData.id);
-    loadWorkspace(wsData.id);
+
+    // Step 4: Log activity and load
+    await logActivity(wsData.id, 'MEMBER_JOINED', '')
+    localStorage.setItem('hexis_workspace_id', wsData.id)
+    toast.success('JOINED WORKSPACE: ' + wsData.name)
+    await loadWorkspace(wsData.id)
   };
 
   const sendMessage = async (e: React.FormEvent) => {
@@ -440,6 +489,7 @@ export default function Collab() {
                     value={inviteCode}
                     onChange={e => setInviteCode(e.target.value.toUpperCase())}
                     maxLength={6}
+                    pattern="[A-Z0-9]{6}"
                     className="w-full bg-[#0a1a0f] border border-[#1b4332] text-[#d8f3dc] font-mono px-4 py-3 outline-none focus:border-[#52b788] text-center tracking-[0.5em] uppercase"
                   />
                   <button type="submit" className="w-full bg-[#52b788] text-[#0a1a0f] font-mono font-bold uppercase tracking-widest px-4 py-3 hover:bg-[#74c69d] transition-colors">
