@@ -19,6 +19,7 @@ export interface PlanFeatures {
   finance: boolean
   collab: boolean
   analytics: boolean
+  mindmap: boolean
 }
 
 export interface UserPlan {
@@ -40,6 +41,7 @@ const PLAN_FEATURES: Record<PlanName, PlanFeatures> = {
     finance: false,
     collab: false,
     analytics: false,
+    mindmap: false,
   },
   phantom: {
     tasks: true,
@@ -53,6 +55,7 @@ const PLAN_FEATURES: Record<PlanName, PlanFeatures> = {
     finance: true,
     collab: true,
     analytics: true,
+    mindmap: false,
   },
   apex: {
     tasks: true,
@@ -66,6 +69,7 @@ const PLAN_FEATURES: Record<PlanName, PlanFeatures> = {
     finance: true,
     collab: true,
     analytics: true,
+    mindmap: true,
   },
 }
 

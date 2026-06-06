@@ -1,6 +1,9 @@
 -- Allow any authenticated user to find a workspace 
 -- by invite_code (needed for /join flow)
 DROP POLICY IF EXISTS "workspace_access" ON collab_workspaces;
+DROP POLICY IF EXISTS "workspace_read_by_invite" ON collab_workspaces;
+DROP POLICY IF EXISTS "workspace_insert_owner" ON collab_workspaces;
+DROP POLICY IF EXISTS "workspace_update_owner" ON collab_workspaces;
 
 CREATE POLICY "workspace_read_by_invite" 
   ON collab_workspaces FOR SELECT
@@ -24,6 +27,9 @@ CREATE POLICY "workspace_update_owner"
 -- Allow members to read workspace_members of their workspace
 DROP POLICY IF EXISTS "member_access" ON workspace_members;
 DROP POLICY IF EXISTS "own_data" ON workspace_members;
+DROP POLICY IF EXISTS "member_read_own_workspace" ON workspace_members;
+DROP POLICY IF EXISTS "member_insert" ON workspace_members;
+DROP POLICY IF EXISTS "member_delete_own" ON workspace_members;
 
 CREATE POLICY "member_read_own_workspace"
   ON workspace_members FOR SELECT

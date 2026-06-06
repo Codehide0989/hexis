@@ -4,6 +4,29 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ReactFlow dark theme override */
+.react-flow__controls-button {
+  background: #0d2818 !important;
+  border-color: #1b4332 !important;
+  color: #52b788 !important;
+  fill: #52b788 !important;
+}
+.react-flow__controls-button:hover {
+  background: #1b4332 !important;
+}
+.react-flow__minimap {
+  border: 1px solid #1b4332 !important;
+}
+.react-flow__edge-path {
+  stroke: #1b4332;
+}
+.react-flow__handle {
+  border: none !important;
+}
+.react-flow__attribution {
+  display: none !important;
+}
+
 *, *::before, *::after {
   box-sizing: border-box;
   margin: 0;

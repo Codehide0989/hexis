@@ -22,6 +22,7 @@ import Collab from './pages/modules/Collab'
 import Analytics from './pages/modules/Analytics'
 import Settings from './pages/modules/Settings'
 import Plan from './pages/modules/Plan'
+import MindMap from './pages/modules/MindMap'
 
 function PlaceholderModule({ name }: { name: string }) {
   return (
@@ -121,6 +122,7 @@ function AppRoutes() {
           <Route path="vault" element={<Vault />} />
           <Route path="analytics" element={<Analytics />} />
           <Route path="plan" element={<Plan />} />
+          <Route path="mindmap" element={<MindMap />} />
           <Route path="settings" element={<Settings />} />
         </Route>
         

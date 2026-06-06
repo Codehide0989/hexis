@@ -6,7 +6,7 @@ import { usePlan } from '../../context/PlanContext';
 import {
   Home, CheckSquare, Layout, Calendar,
   FileText, TrendingUp, List, Bell, Users, BookOpen,
-  Lock, BarChart2, Settings, LogOut, X, Crown
+  Lock, BarChart2, Settings, LogOut, X, Crown, Network
 } from 'lucide-react';
 import { HexisLogo } from '../ui/HexisLogo';
 
@@ -24,6 +24,7 @@ const navItems = [
   { name: 'VAULT', path: '/dashboard/vault', icon: Lock },
   { name: 'ANALYTICS', path: '/dashboard/analytics', icon: BarChart2 },
   { name: 'PLAN', path: '/dashboard/plan', icon: Crown },
+  { name: 'MINDMAP', path: '/dashboard/mindmap', icon: Network },
   { name: 'SETTINGS', path: '/dashboard/settings', icon: Settings },
 ];
 
@@ -132,7 +133,7 @@ export default function Sidebar({ isOpen, profile, toggleSidebar }: SidebarProps
         <nav className="flex-1 flex flex-col justify-between py-2">
           <div className="flex flex-col flex-1">
             {navItems.map(({ name, path, icon: Icon }) => {
-              const requiresPaidPlan = ['ANALYTICS', 'FINANCE', 'INVOICES', 'COLLAB'].includes(name);
+              const requiresPaidPlan = ['ANALYTICS', 'FINANCE', 'INVOICES', 'COLLAB', 'MINDMAP'].includes(name);
               const isLocked = requiresPaidPlan && !canUse(name.toLowerCase() as any);
               return (
               <NavLink
