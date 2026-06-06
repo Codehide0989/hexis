@@ -102,7 +102,7 @@ export function PlanProvider({ children }: { children: ReactNode }) {
         .eq('user_id', user.id)
         .single()
 
-      const planName = (data?.plan || 'covert') as PlanName
+      const planName = (data?.plan?.toLowerCase() || 'covert') as PlanName
 
       if (isMounted.current) {
         setUserPlan({
@@ -195,7 +195,7 @@ export function PlanProvider({ children }: { children: ReactNode }) {
         }, (payload: any) => {
           // Instantly apply new plan from DB event
           const newPlan = (
-            payload.new?.plan || 'covert'
+            payload.new?.plan?.toLowerCase() || 'covert'
           ) as PlanName
           if (isMounted.current) {
             setUserPlan({
