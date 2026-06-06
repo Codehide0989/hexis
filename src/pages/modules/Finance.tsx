@@ -243,27 +243,27 @@ export default function Finance() {
           <h1 className="text-2xl font-mono text-[#52b788] uppercase tracking-wider mb-2">FINANCE TRACKER</h1>
           <p className="text-[#95d5b2] font-mono text-sm uppercase">Monitor revenue streams & burn rate</p>
         </div>
-        <div className="flex gap-4 items-center">
+        <div className="flex flex-wrap gap-2 items-center">
           <div className="flex items-center gap-1 border border-[#1b4332]">
             <button 
               onClick={() => changeCurrency('INR')}
-              className={`px-3 py-1.5 font-mono text-xs transition-colors ${
+              className={`px-2 md:px-3 py-1.5 font-mono text-xs transition-colors ${
                 currency === 'INR' ? 'bg-[#52b788] text-[#0a1a0f]' : 'text-[#95d5b2] hover:text-[#52b788]'
               }`}>
               ₹ INR
             </button>
             <button 
               onClick={() => changeCurrency('USD')}
-              className={`px-3 py-1.5 font-mono text-xs transition-colors ${
+              className={`px-2 md:px-3 py-1.5 font-mono text-xs transition-colors ${
                 currency === 'USD' ? 'bg-[#52b788] text-[#0a1a0f]' : 'text-[#95d5b2] hover:text-[#52b788]'
               }`}>
               $ USD
             </button>
           </div>
-          <button onClick={exportToCSV} className="hex-btn-outline flex items-center gap-2">
+          <button onClick={exportToCSV} className="hex-btn-outline flex items-center gap-2 text-xs px-3 py-2">
             <Download size={16} /> Export CSV
           </button>
-          <button onClick={() => setShowModal(true)} className="hex-btn-primary flex items-center justify-center gap-2 w-full sm:w-auto whitespace-nowrap">
+          <button onClick={() => setShowModal(true)} className="hex-btn-primary flex items-center justify-center gap-2 text-xs px-3 py-2 whitespace-nowrap">
             <Plus size={16} /> Add Record
           </button>
         </div>
@@ -276,7 +276,7 @@ export default function Finance() {
       )}
 
       {/* Dashboard Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 md:p-6 mb-8">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-6">
         <div className="hex-card">
           <div className="flex items-center gap-2 text-[#95d5b2] font-mono text-xs uppercase mb-2">
             <TrendingUp size={14} className="text-[#52b788]" /> Total Income
@@ -308,8 +308,8 @@ export default function Finance() {
       </div>
 
       {/* Chart & Filters Row */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 md:p-6 mb-6">
-        <div className="lg:col-span-2 hex-card h-80 flex flex-col">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-6">
+        <div className="lg:col-span-2 hex-card h-56 md:h-80 flex flex-col">
           <h2 className="text-[#52b788] font-mono text-sm uppercase tracking-widest mb-4 flex items-center gap-2">
             <TrendingUp size={16} /> 6-Month Trajectory
           </h2>
@@ -386,7 +386,7 @@ export default function Finance() {
           <div className="text-center py-8 text-[#1b4332] font-mono text-sm uppercase">[ NO RECORDS FOUND ]</div>
         ) : (
           <div className="overflow-x-auto">
-            <table className="w-full text-left border-collapse">
+            <table className="w-full min-w-[500px] text-left border-collapse">
               <thead>
                 <tr className="border-b border-[#1b4332]">
                   <th className="py-3 px-4 font-mono text-xs uppercase text-[#95d5b2]">Date</th>
@@ -423,7 +423,7 @@ export default function Finance() {
       {/* Add Transaction Modal */}
       {showModal && (
         <div className="fixed inset-0 bg-[#0a1a0f]/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-          <div className="hex-card max-w-md w-full relative">
+          <div className="hex-card w-full max-w-md relative mx-3 md:mx-0 max-h-[90vh] overflow-y-auto">
             <button 
               onClick={() => setShowModal(false)}
               className="absolute top-4 right-4 text-[#95d5b2] hover:text-[#52b788]"
@@ -435,7 +435,7 @@ export default function Finance() {
             </h2>
             
             <form onSubmit={handleAddTransaction} className="space-y-4">
-              <div className="flex gap-4">
+              <div className="flex gap-2 md:gap-4">
                 <label className="flex-1 cursor-pointer">
                   <input 
                     type="radio" 

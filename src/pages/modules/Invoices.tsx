@@ -136,7 +136,12 @@ export default function Invoices() {
   };
 
   const handleDeleteItem = (index: number) => {
-    setItems(items.filter((_, i) => i !== index));
+    if (items.length === 1) {
+      // Reset last item instead of deleting
+      setItems([{ description: '', quantity: 1, price: 0 }]);
+    } else {
+      setItems(items.filter((_, i) => i !== index));
+    }
   };
 
   const saveDraft = async (
@@ -492,7 +497,7 @@ export default function Invoices() {
   if (view === 'create') {
     return (
       <div className="h-full flex flex-col p-4 md:p-6 overflow-y-auto">
-        <div className="flex items-center gap-4 mb-6">
+        <div className="flex flex-wrap items-center gap-3 mb-6">
           <button 
             onClick={() => setView('list')}
             className="text-[#52b788] hover:text-[#95d5b2] transition-colors p-2 border border-[#1b4332] bg-[#0d2818]"
@@ -536,24 +541,32 @@ export default function Invoices() {
               
               <div className="space-y-2 mb-4">
                 {items.map((item, index) => (
-                  <div key={index} className="grid grid-cols-12 gap-2 mb-2">
-                    <div className="col-span-5">
+                  <div key={index} className="flex flex-col sm:grid sm:grid-cols-12 gap-2 mb-3 p-3 sm:p-0 bg-[#0a1a0f] sm:bg-transparent border border-[#1b4332] sm:border-0">
+                    <div className="col-span-5 w-full">
+                      <label className="block sm:hidden text-[9px] text-[#52b788] mb-1 font-mono uppercase tracking-wider">DESCRIPTION</label>
                       <input className="hex-input text-xs" placeholder="Description" value={item.description} onChange={e => handleUpdateItem(index, 'description', e.target.value)} />
                     </div>
-                    <div className="col-span-2">
+                    <div className="col-span-2 flex sm:block items-center gap-2">
+                      <label className="sm:hidden text-[9px] text-[#52b788] font-mono uppercase tracking-wider w-16 shrink-0">QTY</label>
                       <input type="number" min="1" className="hex-input text-xs text-center" value={item.quantity} onChange={e => handleUpdateItem(index, 'quantity', Number(e.target.value))} />
                     </div>
-                    <div className="col-span-2">
+                    <div className="col-span-2 flex sm:block items-center gap-2">
+                      <label className="sm:hidden text-[9px] text-[#52b788] font-mono uppercase tracking-wider w-16 shrink-0">PRICE</label>
                       <input type="number" step="0.01" className="hex-input text-xs" value={item.price} onChange={e => handleUpdateItem(index, 'price', Number(e.target.value))} />
                     </div>
-                    <div className="col-span-2">
+                    <div className="col-span-2 flex sm:block items-center gap-2">
+                      <label className="sm:hidden text-[9px] text-[#52b788] font-mono uppercase tracking-wider w-16 shrink-0">TOTAL</label>
                       <div className="hex-input text-xs text-[#52b788] flex items-center bg-[#0a1a0f]">
                         {sym}{(item.quantity * item.price).toFixed(2)}
                       </div>
                     </div>
-                    <div className="col-span-1">
-                      <button onClick={() => handleDeleteItem(index)} className="hex-btn-danger p-2 h-full w-full flex items-center justify-center">
+                    <div className="col-span-1 flex justify-end sm:block">
+                      <button 
+                        onClick={() => handleDeleteItem(index)} 
+                        className="hex-btn-danger p-2 flex items-center justify-center gap-2 sm:h-full sm:w-full w-auto px-4"
+                      >
                         <Trash2 size={14} />
+                        <span className="sm:hidden text-xs font-mono">REMOVE</span>
                       </button>
                     </div>
                   </div>
