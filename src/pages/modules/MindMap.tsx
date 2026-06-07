@@ -18,7 +18,7 @@ import {
   Plus, Trash2, Download, Save, Edit2,
   X, Circle, Square, Diamond,
   ZoomIn, ZoomOut, Maximize2, 
-  Link, Unlink, Map, ChevronRight
+  Link, Unlink, Map, ChevronRight, Upload, Lock
 } from 'lucide-react'
 
 // ── Custom Node Types ──────────────────────────────
@@ -160,7 +160,7 @@ const edgeTypes = { hexis: HexisEdge }
 
 // ── Main Component ─────────────────────────────────
 
-function MindMapCanvas() {
+function MindMapCanvas({ isApex }: { isApex: boolean }) {
   const { user } = useAuth()
   const { fitView, zoomIn, zoomOut } = useReactFlow()
 
@@ -175,6 +175,7 @@ function MindMapCanvas() {
   const [edges, setEdges, onEdgesChange] = useEdgesState([])
   const [saving, setSaving] = useState(false)
   const [dirty, setDirty] = useState(false)
+  const [importing, setImporting] = useState(false)
 
   // Node editor
   const [selectedNode, setSelectedNode] = useState<Node | null>(null)
@@ -556,6 +557,161 @@ function MindMapCanvas() {
     onNodesChange(changes)
   }, [onNodesChange])
 
+  const handleFileUpload = async (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const file = e.target.files?.[0]
+    if (!file || !activeMap || !user?.id) return
+    
+    setImporting(true)
+    toast.loading('PARSING FILE...')
+    
+    try {
+      // Read file as text
+      const text = await new Promise<string>((resolve, reject) => {
+        const reader = new FileReader()
+        reader.onload = () => resolve(reader.result as string)
+        reader.onerror = reject
+        reader.readAsText(file)
+      })
+
+      // Parse file into lines/items
+      const lines = text
+        .split(/\n|\r\n/)
+        .map(l => l.trim())
+        .filter(l => l.length > 0)
+        .slice(0, 30) // max 30 nodes
+
+      if (lines.length === 0) {
+        toast.dismiss()
+        toast.error('FILE IS EMPTY')
+        setImporting(false)
+        return
+      }
+
+      // Detect CSV or plain text
+      const isCSV = file.name.endsWith('.csv') || 
+        lines[0].includes(',')
+
+      let items: string[] = []
+
+      if (isCSV) {
+        // Use first column of each CSV row as node label
+        items = lines.map(l => {
+          const cols = l.split(',')
+          return cols[0].replace(/"/g, '').trim()
+        }).filter(Boolean)
+      } else {
+        // For txt/md: use headings and bullet points
+        items = lines.map(l => {
+          // Strip markdown heading symbols
+          return l.replace(/^#+\s*/, '')
+            .replace(/^[-*•]\s*/, '')
+            .replace(/\*\*/g, '')
+            .substring(0, 40)
+            .trim()
+        }).filter(Boolean)
+      }
+
+      // Remove duplicate items
+      const unique = [...new Set(items)]
+
+      // Generate positions in a radial layout
+      const centerX = 400
+      const centerY = 300
+      const radius = Math.min(200, unique.length * 30)
+
+      const rootLabel = file.name
+        .replace(/\.[^/.]+$/, '')
+        .toUpperCase()
+        .substring(0, 20)
+
+      const rootId = crypto.randomUUID()
+      const colors = NODE_COLORS
+
+      // Root node in center
+      const newNodes: Node[] = [{
+        id: rootId,
+        type: 'hexis',
+        position: { x: centerX, y: centerY },
+        data: {
+          label: rootLabel,
+          content: `Imported from ${file.name}`,
+          color: '#52b788',
+          shape: 'rect',
+          width: 180,
+          height: 52,
+          nodeId: rootId,
+        },
+        width: 180,
+        height: 52,
+      }]
+
+      // Child nodes arranged in circle around root
+      const newEdges: Edge[] = []
+
+      unique.forEach((item, i) => {
+        if (!item) return
+        const angle = (2 * Math.PI * i) / unique.length
+        const r = unique.length > 6 ? radius + 80 : radius + 60
+        const x = centerX + r * Math.cos(angle) - 70
+        const y = centerY + r * Math.sin(angle) - 20
+        const nodeId = crypto.randomUUID()
+        const color = colors[i % colors.length]
+
+        newNodes.push({
+          id: nodeId,
+          type: 'hexis',
+          position: { x, y },
+          data: {
+            label: item.substring(0, 25),
+            content: item,
+            color,
+            shape: 'rect',
+            width: 150,
+            height: 44,
+            nodeId,
+          },
+          width: 150,
+          height: 44,
+        })
+
+        newEdges.push({
+          id: crypto.randomUUID(),
+          source: rootId,
+          target: nodeId,
+          type: 'hexis',
+          data: { label: '', style: 'solid' },
+          markerEnd: {
+            type: MarkerType.ArrowClosed,
+            color: '#1b4332',
+            width: 14,
+            height: 14,
+          },
+        })
+      })
+
+      // Add to existing nodes/edges (don't replace)
+      setNodes(prev => [...prev, ...newNodes])
+      setEdges(prev => [...prev, ...newEdges])
+      
+      toast.dismiss()
+      toast.success(
+        `MAP GENERATED: ${newNodes.length} nodes from ${file.name}`
+      )
+      
+      setTimeout(() => fitView({ padding: 0.15 }), 150)
+      triggerSave()
+    } catch (err: any) {
+      toast.dismiss()
+      toast.error('IMPORT FAILED: ' + err.message)
+    } finally {
+      setImporting(false)
+      // Reset file input so same file can be uploaded again
+      e.target.value = ''
+    }
+  }
+
   // ═══════════════════════════════════════════════
   // RENDER — Map List
   // ═══════════════════════════════════════════════
@@ -578,13 +734,41 @@ function MindMapCanvas() {
                 KNOWLEDGE_GRAPH_SYSTEM · APEX
               </p>
             </div>
-            <button
-              onClick={() => setShowNewMap(true)}
-              className="hex-btn-primary flex items-center gap-2 text-xs px-4 py-2.5"
-            >
-              <Plus size={14} /> NEW MAP
-            </button>
+            {isApex && (
+              <button
+                onClick={() => setShowNewMap(true)}
+                className="hex-btn-primary flex items-center gap-2 text-xs px-4 py-2.5"
+              >
+                <Plus size={14} /> NEW MAP
+              </button>
+            )}
           </div>
+
+          {!isApex && (
+            <div className="bg-[#0d2818] border border-[#e9c46a]/40 
+              p-4 mb-6 flex flex-col sm:flex-row 
+              sm:items-center justify-between gap-3">
+              <div className="flex items-start gap-3">
+                <Lock size={15} className="text-[#e9c46a] shrink-0 mt-0.5" />
+                <div>
+                  <p className="font-mono text-xs font-bold 
+                    text-[#e9c46a] uppercase tracking-wider mb-0.5">
+                    APEX PLAN REQUIRED
+                  </p>
+                  <p className="font-sans text-xs text-[#95d5b2]">
+                    Upgrade to create and edit mind maps.
+                    Preview available below.
+                  </p>
+                </div>
+              </div>
+              <a href="/dashboard/plan"
+                className="hex-btn-primary text-xs px-4 py-2 
+                  shrink-0 whitespace-nowrap inline-flex 
+                  items-center gap-1.5">
+                UPGRADE →
+              </a>
+            </div>
+          )}
 
           {/* New map form */}
           {showNewMap && (
@@ -623,16 +807,32 @@ function MindMapCanvas() {
               ))}
             </div>
           ) : maps.length === 0 ? (
-            <div className="text-center py-20">
-              <Map size={40} className="text-[#1b4332] mx-auto mb-4" />
-              <p className="font-mono text-sm text-[#1b4332] 
-                tracking-widest mb-2">
-                NO_MAPS_FOUND
-              </p>
-              <p className="font-mono text-xs text-[#1b4332]">
-                Create your first knowledge map
-              </p>
-            </div>
+            <>
+              {!isApex && (
+                <div className="bg-[#0d2818] border border-[#1b4332] 
+                  p-6 opacity-50 pointer-events-none select-none mb-6">
+                  <div className="flex items-center gap-2 mb-3">
+                    <Map size={14} className="text-[#52b788]" />
+                    <p className="font-mono text-sm text-[#d8f3dc] uppercase">
+                      EXAMPLE MAP
+                    </p>
+                  </div>
+                  <p className="font-mono text-[10px] text-[#1b4332]">
+                    UPGRADE TO APEX TO UNLOCK
+                  </p>
+                </div>
+              )}
+              <div className="text-center py-20">
+                <Map size={40} className="text-[#1b4332] mx-auto mb-4" />
+                <p className="font-mono text-sm text-[#1b4332] 
+                  tracking-widest mb-2">
+                  NO_MAPS_FOUND
+                </p>
+                <p className="font-mono text-xs text-[#1b4332]">
+                  Create your first knowledge map
+                </p>
+              </div>
+            </>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
               {maps.map(map => (
@@ -686,79 +886,144 @@ function MindMapCanvas() {
     <div className="h-full flex flex-col bg-[#0a1a0f]">
 
       {/* Top toolbar */}
-      <div className="flex items-center justify-between px-4 py-2.5
-        bg-[#0d2818] border-b border-[#1b4332] shrink-0 flex-wrap gap-2">
+      <div className="flex items-center justify-between px-3 py-2
+        bg-[#0d2818] border-b border-[#1b4332] shrink-0 gap-2">
 
-        {/* Left: back + title */}
-        <div className="flex items-center gap-3">
+        {/* Left */}
+        <div className="flex items-center gap-2 min-w-0">
           <button
-            onClick={() => {
-              saveAll()
-              setShowMapList(true)
-            }}
-            className="flex items-center gap-1.5 font-mono text-xs
-              text-[#95d5b2] hover:text-[#52b788] transition-colors"
+            onClick={() => { saveAll(); setShowMapList(true) }}
+            className="font-mono text-xs text-[#95d5b2] 
+              hover:text-[#52b788] transition-colors 
+              flex items-center gap-1 shrink-0"
           >
             ← MAPS
           </button>
-          <span className="text-[#1b4332]">|</span>
-          <span className="font-mono font-bold text-sm 
-            text-[#d8f3dc] uppercase truncate max-w-[140px] md:max-w-xs">
+          <span className="text-[#1b4332] shrink-0">|</span>
+          <span className="font-mono font-bold text-xs
+            text-[#d8f3dc] uppercase truncate max-w-[100px] sm:max-w-[200px]">
             {activeMap.title}
           </span>
           {dirty && (
-            <span className="font-mono text-[9px] text-[#e9c46a] 
-              animate-pulse tracking-widest">
-              UNSAVED
+            <span className="font-mono text-[9px] text-[#e9c46a]
+              animate-pulse tracking-widest shrink-0 hidden sm:block">
+              ● UNSAVED
             </span>
           )}
           {saving && (
-            <span className="font-mono text-[9px] text-[#52b788] 
-              animate-pulse tracking-widest">
+            <span className="font-mono text-[9px] text-[#52b788]
+              animate-pulse tracking-widest shrink-0 hidden sm:block">
               SAVING...
             </span>
           )}
         </div>
 
-        {/* Right: actions */}
-        <div className="flex items-center gap-2 flex-wrap">
-          <button
-            onClick={addNode}
-            className="flex items-center gap-1.5 hex-btn-primary 
-              text-xs px-3 py-1.5"
-          >
-            <Plus size={13} /> NODE
-          </button>
-          <button
-            onClick={saveAll}
-            className="flex items-center gap-1.5 hex-btn-outline 
-              text-xs px-3 py-1.5"
-          >
-            <Save size={13} /> SAVE
-          </button>
-          <button
-            onClick={exportImage}
-            className="flex items-center gap-1.5 hex-btn-outline 
-              text-xs px-3 py-1.5"
-          >
-            <Download size={13} /> EXPORT
-          </button>
+        {/* Right */}
+        <div className="flex items-center gap-1.5 shrink-0">
+          {isApex && (
+            <>
+              <button
+                onClick={addNode}
+                className="flex items-center gap-1 bg-[#52b788] 
+                  text-[#0a1a0f] font-mono font-bold text-[10px] 
+                  uppercase tracking-wider px-3 py-1.5
+                  hover:bg-[#74c69d] transition-colors"
+              >
+                <Plus size={12} /> NODE
+              </button>
+              
+              {/* File upload button */}
+              <div className="flex flex-col items-center gap-0.5">
+                <label className="flex items-center gap-1 border 
+                  border-[#1b4332] text-[#95d5b2] font-mono text-[10px] 
+                  uppercase tracking-wider px-3 py-1.5 cursor-pointer
+                  hover:border-[#52b788] hover:text-[#52b788] 
+                  transition-colors">
+                  <Upload size={12} /> IMPORT
+                  <input
+                    type="file"
+                    accept=".txt,.csv,.md,.doc,.docx"
+                    className="hidden"
+                    onChange={handleFileUpload}
+                  />
+                </label>
+                <span className="font-mono text-[9px] text-[#1b4332]
+                  hidden lg:block -mt-0.5">
+                  txt csv md
+                </span>
+              </div>
+
+              <button
+                onClick={saveAll}
+                className="flex items-center gap-1 border 
+                  border-[#1b4332] text-[#95d5b2] font-mono text-[10px] 
+                  uppercase tracking-wider px-3 py-1.5
+                  hover:border-[#52b788] hover:text-[#52b788] 
+                  transition-colors"
+              >
+                <Save size={12} /> SAVE
+              </button>
+              <button
+                onClick={exportImage}
+                className="flex items-center gap-1 border 
+                  border-[#1b4332] text-[#95d5b2] font-mono text-[10px] 
+                  uppercase tracking-wider px-3 py-1.5
+                  hover:border-[#52b788] hover:text-[#52b788] 
+                  transition-colors hidden sm:flex"
+              >
+                <Download size={12} /> EXPORT
+              </button>
+            </>
+          )}
           <button
             onClick={() => fitView({ padding: 0.2 })}
             className="p-1.5 border border-[#1b4332] text-[#95d5b2]
               hover:border-[#52b788] hover:text-[#52b788] transition-colors"
-            title="Fit view"
           >
-            <Maximize2 size={14} />
+            <Maximize2 size={13} />
           </button>
         </div>
       </div>
 
       {/* Canvas + Side panels */}
       <div className="flex-1 flex overflow-hidden relative">
+        {/* Non-APEX lock overlay */}
+        {!isApex && (
+          <div className="absolute inset-0 z-20 
+            bg-[#0a1a0f]/85 backdrop-blur-[2px]
+            flex items-center justify-center">
+            <div className="text-center px-6 max-w-sm">
+              <div className="w-16 h-16 border border-[#52b788] 
+                flex items-center justify-center mx-auto mb-5">
+                <Lock size={28} className="text-[#52b788]" />
+              </div>
+              <p className="font-mono font-bold text-sm 
+                text-[#d8f3dc] uppercase tracking-widest mb-2">
+                APEX PLAN REQUIRED
+              </p>
+              <p className="font-mono text-xs text-[#95d5b2] 
+                mb-6 leading-relaxed">
+                Mind Map is an APEX-only feature.
+                Upgrade to create unlimited knowledge graphs,
+                import files, and export as images.
+              </p>
+              <a 
+                href="/dashboard/plan"
+                className="hex-btn-primary text-xs px-6 py-2.5 
+                  inline-flex items-center gap-2"
+              >
+                UPGRADE TO APEX →
+              </a>
+            </div>
+          </div>
+        )}
 
         {/* ReactFlow canvas */}
-        <div className="flex-1" ref={flowRef}>
+        <div 
+          className="flex-1" 
+          ref={flowRef}
+          style={{ pointerEvents: isApex ? 'all' : 'none' }}
+        >
           <ReactFlow
             nodes={nodes}
             edges={edges}
@@ -805,20 +1070,25 @@ function MindMapCanvas() {
               style={{
                 background: '#0d2818',
                 border: '1px solid #1b4332',
+                width: 120,
+                height: 80,
               }}
               nodeColor={(n) => n.data?.color || '#52b788'}
-              maskColor="#0a1a0f99"
+              nodeStrokeWidth={0}
+              maskColor="#0a1a0fcc"
+              pannable
+              zoomable
             />
 
             {/* Hint panel */}
             <Panel position="bottom-left">
               <div className="font-mono text-[9px] text-[#1b4332] 
                 leading-relaxed bg-[#0d2818] border border-[#1b4332] 
-                p-2 hidden md:block">
-                <div>DRAG: move nodes</div>
-                <div>DRAG handle→handle: connect</div>
-                <div>CLICK node/edge: edit</div>
-                <div>DELETE key: remove selected</div>
+                p-2 hidden md:block space-y-0.5">
+                <div>DRAG node → move</div>
+                <div>DRAG handle → connect</div>
+                <div>CLICK → edit</div>
+                <div>DEL key → delete</div>
               </div>
             </Panel>
           </ReactFlow>
@@ -1024,15 +1294,10 @@ function MindMapCanvas() {
 // Wrap with ReactFlowProvider (required)
 export default function MindMap() {
   const { canUse } = usePlan()
+  const isApex = canUse('mindmap' as any)
   return (
-    <UpgradeGate
-      feature="Mind Map"
-      requiredPlan="apex"
-      enabled={canUse('mindmap' as any)}
-    >
-      <ReactFlowProvider>
-        <MindMapCanvas />
-      </ReactFlowProvider>
-    </UpgradeGate>
+    <ReactFlowProvider>
+      <MindMapCanvas isApex={isApex} />
+    </ReactFlowProvider>
   )
 }
