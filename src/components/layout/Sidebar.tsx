@@ -3,6 +3,7 @@ import { supabase } from '../../lib/supabase';
 import { useState, useEffect } from 'react';
 import { useAuth } from '../../hooks/useAuth';
 import { usePlan } from '../../context/PlanContext';
+import toast from 'react-hot-toast';
 import {
   Home, CheckSquare, Layout, Calendar,
   FileText, TrendingUp, List, Bell, Users, BookOpen,
@@ -90,9 +91,25 @@ export default function Sidebar({ isOpen, profile, toggleSidebar }: SidebarProps
   }, []);
 
   const handleLogout = async () => {
-    await supabase.auth.signOut();
-    navigate('/');
-  };
+    try {
+      // Sign out from Supabase (clears localStorage session)
+      await supabase.auth.signOut()
+      
+      // Clear any app-specific localStorage items
+      localStorage.removeItem('hexis_workspace_id')
+      localStorage.removeItem('hexis_currency')
+      localStorage.removeItem('hexis_dismissed_announcements')
+      
+      // Navigate to login
+      navigate('/login')
+      
+      toast.success('SESSION TERMINATED')
+    } catch (err) {
+      console.error('Logout error:', err)
+      // Force navigate even if signOut fails
+      navigate('/login')
+    }
+  }
 
   const username = profile?.username || 'OPERATOR_01';
   const initials = username.substring(0, 2).toUpperCase();

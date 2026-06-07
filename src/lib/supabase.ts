@@ -4,11 +4,7 @@ const supabaseUrl = import.meta.env.VITE_SUPABASE_URL
 const supabaseKey = import.meta.env.VITE_SUPABASE_ANON_KEY
 
 if (!supabaseUrl || !supabaseKey) {
-  throw new Error(
-    'Missing Supabase env variables. ' +
-    'Check .env file has VITE_SUPABASE_URL ' +
-    'and VITE_SUPABASE_ANON_KEY'
-  )
+  throw new Error('Missing Supabase environment variables')
 }
 
 export const supabase = createClient(
@@ -16,10 +12,23 @@ export const supabase = createClient(
   supabaseKey,
   {
     auth: {
-      autoRefreshToken: true,
+      // Persist session in localStorage forever
       persistSession: true,
+      
+      // Auto refresh token before it expires
+      autoRefreshToken: true,
+      
+      // Detect session from URL (for OAuth flows)
       detectSessionInUrl: true,
-      storageKey: 'hexis-auth-token',
+      
+      // Use localStorage (survives browser close)
+      storage: window.localStorage,
+      
+      // Storage key
+      storageKey: 'hexis-auth-v1',
+      
+      // Session will be refreshed automatically
+      // User stays logged in until they click logout
     },
     realtime: {
       params: {

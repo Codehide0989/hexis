@@ -33,60 +33,91 @@ const NODE_COLORS = [
 function HexisNode({ data, selected }: any) {
   const isCircle = data.shape === 'circle'
   const isDiamond = data.shape === 'diamond'
+  
+  const w = data.width || 160
+  const h = data.height || 48
+  
+  // Diamond dimensions (make it bigger so text fits)
+  const dw = isDiamond ? Math.max(w, 140) : w
+  const dh = isDiamond ? Math.max(h + 40, 90) : h
 
   return (
     <div
       style={{
-        background: '#0d2818',
-        border: `1.5px solid ${selected ? '#74c69d' : data.color || '#52b788'}`,
-        borderRadius: isCircle ? '50%' : '0px',
-        transform: isDiamond ? 'rotate(45deg)' : 'none',
-        width: data.width || 160,
-        height: data.height || 48,
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        cursor: 'grab',
-        boxShadow: selected
-          ? `0 0 0 2px ${data.color || '#52b788'}40`
-          : 'none',
-        transition: 'box-shadow 0.15s',
+        width: dw,
+        height: dh,
         position: 'relative',
+        cursor: 'grab',
       }}
     >
+      {/* SVG shape background */}
+      <svg
+        style={{
+          position: 'absolute',
+          top: 0, left: 0,
+          width: '100%',
+          height: '100%',
+          overflow: 'visible',
+        }}
+      >
+        {isCircle ? (
+          <ellipse
+            cx={dw / 2}
+            cy={dh / 2}
+            rx={dw / 2 - 1}
+            ry={dh / 2 - 1}
+            fill="#0d2818"
+            stroke={selected ? '#74c69d' : data.color || '#52b788'}
+            strokeWidth={selected ? 2 : 1.5}
+          />
+        ) : isDiamond ? (
+          <polygon
+            points={`
+              ${dw / 2},2
+              ${dw - 2},${dh / 2}
+              ${dw / 2},${dh - 2}
+              2,${dh / 2}
+            `}
+            fill="#0d2818"
+            stroke={selected ? '#74c69d' : data.color || '#52b788'}
+            strokeWidth={selected ? 2 : 1.5}
+          />
+        ) : (
+          <rect
+            x={1}
+            y={1}
+            width={dw - 2}
+            height={dh - 2}
+            fill="#0d2818"
+            stroke={selected ? '#74c69d' : data.color || '#52b788'}
+            strokeWidth={selected ? 2 : 1.5}
+          />
+        )}
+      </svg>
+
+      {/* Handles — always straight, not rotated */}
       <Handle
         type="target"
         position={Position.Left}
         style={{
           background: data.color || '#52b788',
-          border: 'none', width: 8, height: 8,
-          transform: isDiamond ? 'rotate(-45deg)' : 'none'
+          border: 'none',
+          width: 8, height: 8,
+          left: isDiamond ? 0 : -4,
+          top: '50%',
+          transform: 'translateY(-50%)',
         }}
       />
-      <div style={{
-        transform: isDiamond ? 'rotate(-45deg)' : 'none',
-        padding: '4px 10px',
-        fontFamily: "'Space Mono', monospace",
-        fontSize: '11px',
-        color: '#d8f3dc',
-        fontWeight: 'bold',
-        textAlign: 'center',
-        maxWidth: '90%',
-        overflow: 'hidden',
-        textOverflow: 'ellipsis',
-        whiteSpace: 'nowrap',
-        letterSpacing: '0.05em',
-        userSelect: 'none',
-      }}>
-        {data.label}
-      </div>
       <Handle
         type="source"
         position={Position.Right}
         style={{
           background: data.color || '#52b788',
-          border: 'none', width: 8, height: 8,
-          transform: isDiamond ? 'rotate(-45deg)' : 'none'
+          border: 'none',
+          width: 8, height: 8,
+          right: isDiamond ? 0 : -4,
+          top: '50%',
+          transform: 'translateY(-50%)',
         }}
       />
       <Handle
@@ -95,7 +126,11 @@ function HexisNode({ data, selected }: any) {
         id="bottom"
         style={{
           background: data.color || '#52b788',
-          border: 'none', width: 8, height: 8
+          border: 'none',
+          width: 8, height: 8,
+          bottom: isDiamond ? 0 : -4,
+          left: '50%',
+          transform: 'translateX(-50%)',
         }}
       />
       <Handle
@@ -104,9 +139,39 @@ function HexisNode({ data, selected }: any) {
         id="top"
         style={{
           background: data.color || '#52b788',
-          border: 'none', width: 8, height: 8
+          border: 'none',
+          width: 8, height: 8,
+          top: isDiamond ? 0 : -4,
+          left: '50%',
+          transform: 'translateX(-50%)',
         }}
       />
+
+      {/* Label — always centered, never rotated */}
+      <div
+        style={{
+          position: 'absolute',
+          top: 0, left: 0,
+          width: '100%',
+          height: '100%',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          fontFamily: "'Space Mono', monospace",
+          fontSize: '11px',
+          fontWeight: 'bold',
+          color: '#d8f3dc',
+          letterSpacing: '0.05em',
+          userSelect: 'none',
+          pointerEvents: 'none',
+          padding: isDiamond ? '0 20px' : '0 10px',
+          textAlign: 'center',
+          lineHeight: '1.3',
+          overflow: 'hidden',
+        }}
+      >
+        {data.label}
+      </div>
     </div>
   )
 }
@@ -480,11 +545,27 @@ function MindMapCanvas({ isApex }: { isApex: boolean }) {
               content: editContent,
               color: editColor,
               shape: editShape,
-              width: editShape === 'circle' ? 80 : editWidth,
-              height: editShape === 'circle' ? 80 : editHeight,
+              width: editShape === 'circle' 
+                ? 80 
+                : editShape === 'diamond' 
+                  ? Math.max(editWidth, 140) 
+                  : editWidth,
+              height: editShape === 'circle' 
+                ? 80 
+                : editShape === 'diamond' 
+                  ? Math.max(editHeight + 40, 90) 
+                  : editHeight,
             },
-            width: editShape === 'circle' ? 80 : editWidth,
-            height: editShape === 'circle' ? 80 : editHeight,
+            width: editShape === 'circle' 
+              ? 80 
+              : editShape === 'diamond' 
+                ? Math.max(editWidth, 140) 
+                : editWidth,
+            height: editShape === 'circle' 
+              ? 80 
+              : editShape === 'diamond' 
+                ? Math.max(editHeight + 40, 90) 
+                : editHeight,
           }
         : n
     ))
