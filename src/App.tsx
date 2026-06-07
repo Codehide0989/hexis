@@ -91,7 +91,7 @@ function AppRoutes() {
         <Route path="/protocol" element={<Protocol />} />
         <Route path="/pricing" element={<Pricing />} />
         <Route path="/banned" element={<Banned />} />
-        <Route path="/auth/discord/callback" element={<AuthCallback />} />
+        <Route path="/auth/callback" element={<AuthCallback />} />
         
         <Route path="/admin/setup" element={<AdminSetup />} />
         <Route path="/admin/login" element={<AdminLogin />} />

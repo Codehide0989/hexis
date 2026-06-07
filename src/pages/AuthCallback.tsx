@@ -1,51 +1,85 @@
-import { useEffect, useState } from 'react';
-import { useNavigate, useSearchParams } from 'react-router-dom';
-import { useAuth } from '../hooks/useAuth';
-import { exchangeDiscordCode, saveDiscordLink } from '../lib/discord';
+import { useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { supabase } from '../lib/supabase'
+import toast from 'react-hot-toast'
 
 export default function AuthCallback() {
-  const [sp] = useSearchParams();
-  const navigate = useNavigate();
-  const { user } = useAuth();
-  const code = sp.get('code');
-  const [msg, setMsg] = useState('⬡ LINKING DISCORD…');
+  const navigate = useNavigate()
 
   useEffect(() => {
-    if (!code) { 
-      navigate('/login', { replace: true }); 
-      return; 
-    }
-    if (!user) {
-      sessionStorage.setItem('hexis_oauth_code', code);
-      navigate('/login?resume=1', { replace: true }); 
-      return;
-    }
-    
-    (async () => {
-      setMsg('⬡ EXCHANGING CODE…');
-      const ex = await exchangeDiscordCode(code);
-      if (!ex.ok || !ex.profile) {
-        setMsg(`✗ FAILED: ${ex.error || 'unknown'}`);
-        setTimeout(() => navigate('/dashboard/settings', { replace: true }), 1500); 
-        return;
+    const handleCallback = async () => {
+      try {
+        // Exchange the code for a session
+        const { data, error } = await supabase.auth.getSession()
+        
+        if (error) throw error
+        
+        if (data.session) {
+          const user = data.session.user
+          
+          // Check if profile exists
+          const { data: profile } = await supabase
+            .from('profiles')
+            .select('id, username, md5_hash')
+            .eq('id', user.id)
+            .maybeSingle()
+          
+          if (!profile) {
+            // New Discord user — create profile + generate MD5
+            const md5 = await import('md5')
+            const username = 
+              user.user_metadata?.username ||
+              user.user_metadata?.full_name ||
+              user.email?.split('@')[0] ||
+              'user_' + user.id.slice(0, 6)
+            
+            const md5Hash = md5.default(
+              username + user.id + Date.now().toString()
+            )
+            
+            await supabase.from('profiles').insert({
+              id: user.id,
+              username: username.toLowerCase()
+                .replace(/[^a-z0-9_]/g, '_')
+                .substring(0, 20),
+              md5_hash: md5Hash,
+              discord_id: user.user_metadata?.provider_id || null,
+            })
+
+            // Auto-create COVERT subscription
+            await supabase.from('user_subscriptions')
+              .insert({ user_id: user.id, plan: 'covert' })
+              .then(() => {})
+
+            // Show MD5 key to user
+            toast.success(
+              `ACCOUNT CREATED! Your MD5 key: ${md5Hash}`,
+              { duration: 10000 }
+            )
+          }
+          
+          navigate('/dashboard', { replace: true })
+        } else {
+          navigate('/login', { replace: true })
+        }
+      } catch (err: any) {
+        console.error('Auth callback error:', err)
+        toast.error('Login failed: ' + err.message)
+        navigate('/login', { replace: true })
       }
-      
-      setMsg('⬡ SAVING LINK…');
-      const ok = await saveDiscordLink(user.id, ex.profile);
-      if (!ok) { 
-        setMsg('✗ FAILED TO SAVE'); 
-        setTimeout(() => navigate('/dashboard/settings', { replace: true }), 1500); 
-        return; 
-      }
-      
-      setMsg('✓ LINKED — REDIRECTING…');
-      setTimeout(() => navigate('/dashboard/settings', { replace: true }), 800);
-    })();
-  }, [code, user, navigate]);
+    }
+
+    handleCallback()
+  }, [navigate])
 
   return (
-    <div className="min-h-screen bg-[#0a1a0f] flex items-center justify-center font-mono">
-      <div className="text-[#52b788] text-sm tracking-widest animate-pulse">{msg}</div>
+    <div className="min-h-screen bg-[#0a1a0f] flex items-center justify-center">
+      <div className="text-center">
+        <div className="w-10 h-10 border border-[#52b788] border-t-transparent rounded-full animate-spin mx-auto mb-4" />
+        <p className="font-mono text-xs text-[#52b788] tracking-widest animate-pulse">
+          AUTHENTICATING VIA DISCORD...
+        </p>
+      </div>
     </div>
-  );
+  )
 }

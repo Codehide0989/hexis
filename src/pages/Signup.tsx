@@ -133,9 +133,9 @@ export default function Signup() {
         <div className="text-center mb-8 border-b border-[#1b4332] pb-6">
           <h1 className="font-mono font-bold text-2xl text-[#d8f3dc] uppercase tracking-widest mb-2 flex items-center justify-center gap-3">
             <Key size={20} className="text-[#52b788]" />
-            SYSTEM_INITIALIZATION
+            CREATE ACCOUNT
           </h1>
-          <p className="font-sans text-xs text-[#95d5b2]">Generate your secure cryptographic identity.</p>
+          <p className="font-sans text-xs text-[#95d5b2]">Sign up to get started with HEXIS.</p>
         </div>
         
         {errorMsg && (
@@ -146,10 +146,10 @@ export default function Signup() {
 
         <form className="space-y-6" onSubmit={handleSignup}>
           <div className="block">
-            <label className="font-mono text-xs text-[#52b788] tracking-widest uppercase mb-2 block">IDENTIFIER</label>
+            <label className="font-mono text-xs text-[#52b788] tracking-widest uppercase mb-2 block">EMAIL ADDRESS</label>
             <input 
               type="text" 
-              className="w-full bg-[#0a1a0f] border border-[#1b4332] focus:border-[#52b788] focus:ring-1 focus:ring-[#52b788] text-[#d8f3dc] font-mono text-sm p-3 outline-none transition-all rounded-none" 
+              className="w-full bg-[#0a1a0f] border border-[#1b4332] text-[#d8f3dc] font-mono text-sm px-4 py-3 outline-none focus:border-[#52b788] focus:ring-1 focus:ring-[#52b788] placeholder-[#2d6a4f] transition-colors" 
               placeholder="Enter your alias" 
               value={username}
               onChange={e => setUsername(e.target.value)}
@@ -158,10 +158,10 @@ export default function Signup() {
           </div>
           
           <div className="block">
-            <label className="font-mono text-xs text-[#52b788] tracking-widest uppercase mb-2 block">MASTER PASSPHRASE</label>
+            <label className="font-mono text-xs text-[#52b788] tracking-widest uppercase mb-2 block">PASSWORD</label>
             <input 
               type="password" 
-              className="w-full bg-[#0a1a0f] border border-[#1b4332] focus:border-[#52b788] focus:ring-1 focus:ring-[#52b788] text-[#d8f3dc] font-mono text-sm p-3 outline-none transition-all rounded-none" 
+              className="w-full bg-[#0a1a0f] border border-[#1b4332] text-[#d8f3dc] font-mono text-sm px-4 py-3 outline-none focus:border-[#52b788] focus:ring-1 focus:ring-[#52b788] placeholder-[#2d6a4f] transition-colors" 
               placeholder="••••••••••••" 
               value={password}
               onChange={e => setPassword(e.target.value)}
@@ -170,10 +170,10 @@ export default function Signup() {
           </div>
 
           <div className="block">
-            <label className="font-mono text-xs text-[#52b788] tracking-widest uppercase mb-2 block">CONFIRM PASSPHRASE</label>
+            <label className="font-mono text-xs text-[#52b788] tracking-widest uppercase mb-2 block">CONFIRM PASSWORD</label>
             <input 
               type="password" 
-              className="w-full bg-[#0a1a0f] border border-[#1b4332] focus:border-[#52b788] focus:ring-1 focus:ring-[#52b788] text-[#d8f3dc] font-mono text-sm p-3 outline-none transition-all rounded-none" 
+              className="w-full bg-[#0a1a0f] border border-[#1b4332] text-[#d8f3dc] font-mono text-sm px-4 py-3 outline-none focus:border-[#52b788] focus:ring-1 focus:ring-[#52b788] placeholder-[#2d6a4f] transition-colors" 
               placeholder="••••••••••••" 
               value={confirmPassword}
               onChange={e => setConfirmPassword(e.target.value)}
@@ -186,7 +186,7 @@ export default function Signup() {
             disabled={loading}
             className="w-full bg-[#52b788] text-[#0a1a0f] hover:bg-[#74c69d] font-mono font-bold tracking-widest text-sm p-3 transition-colors uppercase disabled:opacity-50 disabled:cursor-not-allowed rounded-none border-none"
           >
-            {loading ? 'GENERATING...' : 'GENERATE KEYPAIR'}
+            {loading ? 'GENERATING...' : 'CREATE ACCOUNT'}
           </button>
         </form>
         
@@ -194,7 +194,7 @@ export default function Signup() {
         
         <div className="text-center block">
           <p className="font-mono text-xs text-[#95d5b2]">
-            ALREADY REGISTERED? <Link to="/login" className="text-[#52b788] hover:text-[#d8f3dc] transition-colors ml-2 no-underline">AUTHENTICATE</Link>
+            ALREADY HAVE AN ACCOUNT? <Link to="/login" className="text-[#52b788] hover:text-[#d8f3dc] transition-colors ml-2 no-underline">LOG IN</Link>
           </p>
         </div>
       </div>
