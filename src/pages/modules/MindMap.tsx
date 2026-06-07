@@ -24,9 +24,10 @@ import {
 // ── Custom Node Types ──────────────────────────────
 
 const NODE_COLORS = [
-  '#52b788', '#74c69d', '#e9c46a',
-  '#e63946', '#457b9d', '#95d5b2',
-  '#1b4332', '#f4a261'
+  '#52b788', '#74c69d', '#95d5b2',  // greens
+  '#e9c46a', '#f4a261', '#e76f51',  // ambers/oranges
+  '#e63946', '#c77dff', '#457b9d',  // red/purple/blue
+  '#4cc9f0', '#ffffff', '#1b4332',  // cyan/white/dark
 ]
 
 function HexisNode({ data, selected }: any) {
@@ -184,6 +185,8 @@ function MindMapCanvas({ isApex }: { isApex: boolean }) {
   const [editContent, setEditContent] = useState('')
   const [editColor, setEditColor] = useState('#52b788')
   const [editShape, setEditShape] = useState('rect')
+  const [editWidth, setEditWidth] = useState(160)
+  const [editHeight, setEditHeight] = useState(48)
 
   // Edge editor
   const [selectedEdge, setSelectedEdge] = useState<Edge | null>(null)
@@ -448,6 +451,8 @@ function MindMapCanvas({ isApex }: { isApex: boolean }) {
     setEditContent(node.data.content || '')
     setEditColor(node.data.color || '#52b788')
     setEditShape(node.data.shape || 'rect')
+    setEditWidth(node.width as number || 160)
+    setEditHeight(node.height as number || 48)
     setShowNodeEditor(true)
     setShowEdgeEditor(false)
   }, [])
@@ -475,11 +480,11 @@ function MindMapCanvas({ isApex }: { isApex: boolean }) {
               content: editContent,
               color: editColor,
               shape: editShape,
-              width: editShape === 'circle' ? 80 : 160,
-              height: editShape === 'circle' ? 80 : 48,
+              width: editShape === 'circle' ? 80 : editWidth,
+              height: editShape === 'circle' ? 80 : editHeight,
             },
-            width: editShape === 'circle' ? 80 : 160,
-            height: editShape === 'circle' ? 80 : 48,
+            width: editShape === 'circle' ? 80 : editWidth,
+            height: editShape === 'circle' ? 80 : editHeight,
           }
         : n
     ))
@@ -1096,7 +1101,7 @@ function MindMapCanvas({ isApex }: { isApex: boolean }) {
 
         {/* Node Editor Panel */}
         {showNodeEditor && selectedNode && (
-          <div className="w-full md:w-64 bg-[#0d2818] border-l 
+          <div className="w-full md:w-72 bg-[#0d2818] border-l 
             border-[#1b4332] flex flex-col shrink-0
             absolute md:relative right-0 top-0 h-full z-10
             shadow-2xl">
@@ -1112,7 +1117,7 @@ function MindMapCanvas({ isApex }: { isApex: boolean }) {
               </button>
             </div>
 
-            <div className="flex-1 overflow-y-auto p-4 space-y-4">
+            <div className="flex-1 overflow-y-auto p-4 space-y-3">
               {/* Label */}
               <div>
                 <label className="block font-mono text-[10px] 
@@ -1149,23 +1154,26 @@ function MindMapCanvas({ isApex }: { isApex: boolean }) {
                   text-[#95d5b2] uppercase tracking-widest mb-1.5">
                   SHAPE
                 </label>
-                <div className="flex gap-2">
+                <div className="grid grid-cols-3 gap-1.5">
                   {[
-                    { val: 'rect', icon: <Square size={14} /> },
-                    { val: 'circle', icon: <Circle size={14} /> },
-                    { val: 'diamond', icon: <Diamond size={14} /> },
+                    { val: 'rect',     icon: <Square size={13} />,   label: 'RECT'    },
+                    { val: 'circle',   icon: <Circle size={13} />,   label: 'CIRCLE'  },
+                    { val: 'diamond',  icon: <Diamond size={13} />,  label: 'DIAMOND' },
                   ].map(s => (
                     <button
                       key={s.val}
                       onClick={() => setEditShape(s.val)}
-                      className={`flex-1 flex items-center justify-center 
-                        p-2 border transition-colors
+                      className={`flex flex-col items-center justify-center 
+                        gap-1 p-2 border transition-colors
                         ${editShape === s.val
                           ? 'border-[#52b788] text-[#52b788] bg-[#52b788]/10'
-                          : 'border-[#1b4332] text-[#95d5b2] hover:border-[#52b788]'
+                          : 'border-[#1b4332] text-[#95d5b2] hover:border-[#52b788] hover:text-[#52b788]'
                         }`}
                     >
                       {s.icon}
+                      <span className="font-mono text-[8px] tracking-wider">
+                        {s.label}
+                      </span>
                     </button>
                   ))}
                 </div>
@@ -1182,13 +1190,80 @@ function MindMapCanvas({ isApex }: { isApex: boolean }) {
                     <button
                       key={c}
                       onClick={() => setEditColor(c)}
+                      title={c}
                       style={{ background: c }}
-                      className={`h-7 transition-all
+                      className={`h-8 transition-all relative
                         ${editColor === c
-                          ? 'ring-2 ring-white ring-offset-1 ring-offset-[#0d2818] scale-110'
-                          : 'opacity-70 hover:opacity-100'
+                          ? 'ring-2 ring-white ring-offset-1 ring-offset-[#0d2818]'
+                          : 'opacity-60 hover:opacity-100'
                         }`}
-                    />
+                    >
+                      {editColor === c && (
+                        <span className="absolute inset-0 flex items-center 
+                          justify-center text-white font-bold text-xs">
+                          ✓
+                        </span>
+                      )}
+                    </button>
+                  ))}
+                </div>
+                <div className="flex items-center gap-2 mt-2">
+                  <div 
+                    className="w-7 h-7 shrink-0 border border-[#1b4332]"
+                    style={{ background: editColor }}
+                  />
+                  <input
+                    type="text"
+                    value={editColor}
+                    onChange={e => {
+                      const v = e.target.value
+                      if (/^#[0-9A-Fa-f]{0,6}$/.test(v)) setEditColor(v)
+                    }}
+                    placeholder="#52b788"
+                    maxLength={7}
+                    className="flex-1 bg-[#0a1a0f] border border-[#1b4332] 
+                      px-2 py-1.5 font-mono text-xs text-[#d8f3dc] 
+                      outline-none focus:border-[#52b788] tracking-widest"
+                  />
+                  <input
+                    type="color"
+                    value={editColor}
+                    onChange={e => setEditColor(e.target.value)}
+                    className="w-7 h-7 cursor-pointer border border-[#1b4332] 
+                      bg-[#0a1a0f] p-0 outline-none"
+                    title="Pick custom color"
+                  />
+                </div>
+              </div>
+
+              {/* Size */}
+              <div>
+                <label className="block font-mono text-[10px] 
+                  text-[#95d5b2] uppercase tracking-widest mb-1.5">
+                  SIZE
+                </label>
+                <div className="flex gap-1.5">
+                  {[
+                    { label: 'S', w: 120, h: 40 },
+                    { label: 'M', w: 160, h: 48 },
+                    { label: 'L', w: 220, h: 56 },
+                    { label: 'XL', w: 280, h: 64 },
+                  ].map(s => (
+                    <button
+                      key={s.label}
+                      onClick={() => {
+                        setEditWidth(s.w)
+                        setEditHeight(s.h)
+                      }}
+                      className={`flex-1 py-1.5 font-mono text-[10px] 
+                        border transition-colors
+                        ${(editWidth || 160) === s.w
+                          ? 'border-[#52b788] text-[#52b788] bg-[#52b788]/10'
+                          : 'border-[#1b4332] text-[#95d5b2] hover:border-[#52b788]'
+                        }`}
+                    >
+                      {s.label}
+                    </button>
                   ))}
                 </div>
               </div>

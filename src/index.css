@@ -159,3 +159,212 @@ input[type="time"]::-webkit-calendar-picker-indicator:hover,
 input[type="datetime-local"]::-webkit-calendar-picker-indicator:hover {
   opacity: 1;
 }
+
+/* ── Global UI polish ── */
+
+/* Smoother scrolling */
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Better focus rings */
+*:focus-visible {
+  outline: 1px solid #52b788;
+  outline-offset: 2px;
+}
+
+/* Selection color */
+::selection {
+  background: #52b788;
+  color: #0a1a0f;
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+::-webkit-scrollbar-track {
+  background: #0a1a0f;
+}
+::-webkit-scrollbar-thumb {
+  background: #1b4332;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #52b788;
+}
+
+/* hex-card hover glow — subtle */
+.hex-card {
+  transition: border-color 0.2s ease;
+}
+
+/* hex-btn-primary shine on hover */
+.hex-btn-primary {
+  position: relative;
+  overflow: hidden;
+}
+.hex-btn-primary::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    120deg,
+    transparent 30%,
+    rgba(255,255,255,0.06) 50%,
+    transparent 70%
+  );
+  transform: translateX(-100%);
+  transition: transform 0.4s ease;
+}
+.hex-btn-primary:hover::after {
+  transform: translateX(100%);
+}
+
+/* Sidebar nav active item left bar glow */
+.hex-nav-active {
+  box-shadow: -2px 0 8px #52b78840;
+}
+
+/* Toast improvements */
+.react-hot-toast > div {
+  font-family: 'Space Mono', monospace !important;
+  font-size: 11px !important;
+  letter-spacing: 0.05em !important;
+}
+
+/* Modal backdrop blur */
+.hex-modal-backdrop {
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+}
+
+/* Input placeholder color */
+input::placeholder,
+textarea::placeholder {
+  color: #2d6a4f;
+  opacity: 1;
+}
+
+/* Stat card number glow */
+.hex-stat-number {
+  text-shadow: 0 0 20px #52b78840;
+}
+
+/* Table row hover */
+tr:hover .hex-td {
+  color: #d8f3dc;
+}
+
+/* Badge pulse for live indicators */
+@keyframes hex-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+.hex-live-dot {
+  animation: hex-pulse 2s ease-in-out infinite;
+}
+
+/* Page transition */
+.hex-page-enter {
+  animation: hexFadeUp 0.25s ease forwards;
+}
+@keyframes hexFadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Improved card borders */
+.hex-card,
+[class*="border-[#1b4332]"] {
+  border-color: #1b4332;
+}
+
+/* Active nav item shadow */
+a[class*="border-[#52b788]"] {
+  box-shadow: inset 3px 0 0 #52b78820;
+}
+
+/* Color picker reset */
+input[type="color"] {
+  -webkit-appearance: none;
+  appearance: none;
+  border: 1px solid #1b4332;
+  padding: 2px;
+  cursor: pointer;
+  background: #0a1a0f;
+}
+input[type="color"]::-webkit-color-swatch-wrapper {
+  padding: 0;
+}
+input[type="color"]::-webkit-color-swatch {
+  border: none;
+}
+
+/* Range input (sliders) */
+input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  background: #1b4332;
+  height: 3px;
+  outline: none;
+  cursor: pointer;
+}
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 14px;
+  height: 14px;
+  background: #52b788;
+  cursor: pointer;
+  border: none;
+  border-radius: 0;
+}
+input[type="range"]::-moz-range-thumb {
+  width: 14px;
+  height: 14px;
+  background: #52b788;
+  border: none;
+  border-radius: 0;
+  cursor: pointer;
+}
+
+/* Select dropdown */
+select option {
+  background: #0d2818;
+  color: #d8f3dc;
+  font-family: 'Space Mono', monospace;
+}
+
+/* Disabled state */
+button:disabled,
+input:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* Number input arrows hide */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+/* Checkbox custom style */
+input[type="checkbox"] {
+  accent-color: #52b788;
+  width: 14px;
+  height: 14px;
+  cursor: pointer;
+}
